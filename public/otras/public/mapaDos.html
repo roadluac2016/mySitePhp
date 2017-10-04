@@ -1,0 +1,598 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="Data visualization-responsive"/>
+      
+      <title> MAPA </title>
+
+      <!-- d3 -->
+      <script src="http://lobohornosindustriales.com.mx/d3.min.js" ></script>
+      <script src="http://lobohornosindustriales.com.mx/topojson.v2.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+
+
+
+    <style>
+      #btnInfo{
+        position: relative;
+        width: 100%;
+        height: 70px;
+        border:1px solid blue;
+      }
+    s
+      #container{
+        border:1px solid orange;
+      }
+
+      .background {
+        fill: none;
+        pointer-events: all;
+      }
+
+      #states {
+        fill: #aaa;
+      }
+
+      #states .active {
+        fill: #7fd1ca;
+      }
+
+    /*
+      path:hover {
+        fill: #7fd1ca;
+      }
+    */
+
+      #state-borders {
+        fill: none;
+        stroke: #fff;
+        stroke-width: 1.5px;
+        stroke-linejoin: round;
+        stroke-linecap: round;
+        pointer-events: none;
+      }
+
+    div.tooltip {
+                position: absolute;
+                text-align: center;
+                width: auto;
+                height: auto;
+                padding: 4px;
+                font: 12px sans-serif;
+                background: black;
+                border: 0px;
+                border-radius: 6px;
+                pointer-events: none;
+                color: white;
+            }
+    </style>
+</head>
+
+
+<body>
+
+
+<div id="btnInfo">
+  <button id="zoom_in">+</button><button id="zoom_out">-</button>
+  <form>
+     <label>Estado:</label><br>
+  </form>  
+</div>
+
+<br><br>
+
+<input id="move" type="checkbox" name="fooby[1][]" value="move" />Aéreo<br />
+<input id="size" type="checkbox" name="fooby[1][]" value="size" />Marítimo<br />
+<input id="other" type="checkbox" name="fooby[1][]" value="other" />Terrestre<br />
+<input id="color" type="checkbox" name="fooby[1][]" value="color" />Ferroviario<br /><br />
+<button id="target">Filtrar</button>
+
+<br><br>
+
+<div id="container"></div>
+
+
+
+
+
+
+
+
+
+
+<script>
+
+ 
+$("input:checkbox").on('click', function() {
+  // in the handler, 'this' refers to the box clicked on
+  var $box = $(this);
+  if ($box.is(":checked")) {
+    // the name of the box is retrieved using the .attr() method
+    // as it is assumed and expected to be immutable
+    var group = "input:checkbox[name='" + $box.attr("name") + "']";
+    // the checked state of the group/box on the other hand will change
+    // and the current value is retrieved using .prop() method
+    $(group).prop("checked", false);
+    $box.prop("checked", true);
+  } else {
+    $box.prop("checked", false);
+  }
+});
+
+
+var margin = { top: 10, right: 10, bottom: 10, left: 10 },
+        width = parseInt(d3.select("#container").style('width'), 10),
+        width = width - margin.left - margin.right,
+        ratio = .5,
+        height = width * ratio+10,
+        centered,
+        zoom = d3.behavior.zoom();
+
+var projection = d3.geo.mercator()
+            .center([-100, 22])
+            .translate([ width/1.7, height/1.7])
+            .scale([ width/.7 ]);
+
+var path = d3.geo.path()
+    .projection(projection);
+
+
+//svg
+var svg = d3.select("#container").append("svg")
+      .attr("width", width)
+      .attr("height", height)
+      .call(d3.behavior.zoom().on("zoom", function () {
+                svg.attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")")
+              })
+            )
+      .append("g");
+
+
+
+d3.json("mexico.json", function(json) {
+
+
+//append the tooltip divs
+  var div = d3.select("body").append("div")
+                .attr("class", "tooltip")
+                .style("opacity", 0);
+
+            svg.append("g")
+                .attr("id", "states")
+              .selectAll("path")
+                .data(json.features)
+              .enter().append("path")
+                .attr("d", path)
+                .attr("fill", "#bae6ef")
+                    .append("title");
+
+
+          // CSV PROCESS
+          d3.csv("aduanasData.csv", function(data) {
+
+                  svg.selectAll("circle")
+                      .data(data)
+                      .enter()
+                      .append("circle")
+                      .attr("cx", function(d) {
+    
+                            return projection([d.lon, d.lat])[0];
+   
+                      })
+                      .attr("cy", function(d) {
+
+                            return projection([d.lon, d.lat])[1];
+
+                      })
+                      .attr("r", function(d) {
+                        return Math.sqrt(d.radio) * 3;
+                      })
+                      .style("fill", "red")
+                      .on("mouseover", function(d) {      
+                          div.transition()        
+                            .duration(200)      
+                            .style("opacity", .9);      
+                          div.text(d.Tipo)
+                            .style("left", (d3.event.pageX) + "px")     
+                            .style("top", (d3.event.pageY - 28) + "px");    
+                      })              
+                      .on("mouseout", function(d) {       
+                          div.transition()        
+                             .duration(500)      
+                             .style("opacity", 0);   
+                      });
+
+
+                var select = d3.select('form')
+                .data(data)
+                  .append('select')
+                  .attr("id", "selecId")
+                  .on('change', function(d) {
+
+                    $('input[type="checkbox"]:checked').prop('checked',false);
+
+                    var selectValue = d3.select('#selecId').property('value');
+
+                     svg.selectAll("circle")
+                      .data(data)
+                      .attr("cx", function(d) {
+                          if(selectValue === "Todos"){
+                            return projection([d.lon, d.lat])[0];
+                            console.log("Tooodos cx") 
+                          }
+                          else if(selectValue === d.Estado){
+                            return projection([d.lon, d.lat])[0];
+                          }
+                          else { return projection(["0","0"])[0]; console.log("Tooodos NO") }      
+                      })
+                      .attr("cy", function(d) {
+                          if(selectValue === "Todos"){
+                            return projection([d.lon, d.lat])[1];
+                            console.log("Tooodos cy") 
+                          }
+                          else if(selectValue === d.Estado){
+                            return projection([d.lon, d.lat])[1];
+                          }
+                          else { return projection(["0","0"])[1]; console.log("Tooodos NO") }
+                      })
+                      .attr("r", function(d) {
+                        return Math.sqrt(d.radio) * 3;
+                      })
+                      .style("fill", "red")
+                      .on("mouseover", function(d) {      
+                          div.transition()        
+                            .duration(200)      
+                            .style("opacity", .9);      
+                          div.text(d.Tipo)
+                            .style("left", (d3.event.pageX) + "px")     
+                            .style("top", (d3.event.pageY - 28) + "px");    
+                      })              
+                      .on("mouseout", function(d) {       
+                          div.transition()        
+                             .duration(500)      
+                             .style("opacity", 0);   
+                      });
+
+
+            $( "#target" ).click(function() {
+                var moveCheckboxSelected = d3.select("#move").property("checked");
+                var sizeCheckboxSelected = d3.select("#size").property("checked");
+                var colorCheckboxSelected = d3.select("#color").property("checked");
+                var otherCheckboxSelected = d3.select("#other").property("checked");
+                
+                if(!moveCheckboxSelected && !sizeCheckboxSelected && !otherCheckboxSelected && !colorCheckboxSelected ){
+                  return;
+                }
+                
+                if(moveCheckboxSelected){
+                   console.log("checked Move")
+                   svg.selectAll("circle")
+                      .data(data)
+                      .attr("cx", function(d) {
+                        if(d.Tipo === "Uno" && selectValue === "Todos"){
+                            return projection([d.lon, d.lat])[0]; 
+                        }
+                        else if(d.Tipo === "Uno" && selectValue === d.Estado){
+                            return projection([d.lon, d.lat])[0];
+                        }
+                        else{
+                            return projection(["0","0"])[0];;
+                        }   
+                      })
+                      .attr("cy", function(d) {
+                        if(d.Tipo === "Uno" && selectValue === "Todos"){
+                            return projection([d.lon, d.lat])[1]; 
+                        }
+                        else if(d.Tipo === "Uno" && selectValue === d.Estado){
+                            return projection([d.lon, d.lat])[1];
+                        }
+                        else{
+                             return projection(["0","0"])[0];;
+                        }
+                      })
+                      .attr("r", function(d) {
+                        return Math.sqrt(d.radio) * 3;
+                      })
+                      .style("fill", "red")
+                      .on("mouseover", function(d) {      
+                          div.transition()        
+                            .duration(200)      
+                            .style("opacity", .9);      
+                          div.text(d.Tipo)
+                            .style("left", (d3.event.pageX) + "px")     
+                            .style("top", (d3.event.pageY - 28) + "px");    
+                      })              
+                      .on("mouseout", function(d) {       
+                          div.transition()        
+                             .duration(500)      
+                             .style("opacity", 0);   
+                      });     
+                }
+                if(sizeCheckboxSelected){
+                   svg.selectAll("circle")
+                      .data(data)
+                      .attr("cx", function(d) {
+                        if(d.Tipo === "Dos" && selectValue === "Todos"){
+                            return projection([d.lon, d.lat])[0]; 
+                        }
+                        else if(d.Tipo === "Dos" && selectValue === d.Estado){
+                            return projection([d.lon, d.lat])[0];
+                            console.log("Tooodos cx") 
+                        }
+                        else{
+                            return projection(["0","0"])[0];;
+                        }   
+                      })
+                      .attr("cy", function(d) {
+                        if(d.Tipo === "Dos" && selectValue === "Todos"){
+                            return projection([d.lon, d.lat])[1]; 
+                        }
+                        else if(d.Tipo === "Dos" && selectValue === d.Estado){
+                            return projection([d.lon, d.lat])[1];
+                        }
+                        else{
+                             return projection(["0","0"])[0];;
+                        }
+                      })
+                      .attr("r", function(d) {
+                        return Math.sqrt(d.radio) * 3;
+                      })
+                      .style("fill", "red")
+                      .on("mouseover", function(d) {      
+                          div.transition()        
+                            .duration(200)      
+                            .style("opacity", .9);      
+                          div.text(d.Tipo)
+                            .style("left", (d3.event.pageX) + "px")     
+                            .style("top", (d3.event.pageY - 28) + "px");    
+                      })              
+                      .on("mouseout", function(d) {       
+                          div.transition()        
+                             .duration(500)      
+                             .style("opacity", 0);   
+                      });
+                  console.log("checked Size")   
+                }
+                if(otherCheckboxSelected){
+                  svg.selectAll("circle")
+                      .data(data)
+                      .attr("cx", function(d) {
+                        if(d.Tipo === "Tres" && selectValue === "Todos"){
+                            return projection([d.lon, d.lat])[0]; 
+                        }
+                        else if(d.Tipo === "Tres" && selectValue === d.Estado){
+                            return projection([d.lon, d.lat])[0];
+                            console.log("Tooodos cx") 
+                        }
+                        else{
+                            return projection(["0","0"])[0];;
+                        }   
+                      })
+                      .attr("cy", function(d) {
+                        if(d.Tipo === "Tres" && selectValue === "Todos"){
+                            return projection([d.lon, d.lat])[1]; 
+                        }
+                        if(d.Tipo === "Tres" && selectValue === d.Estado){
+                            return projection([d.lon, d.lat])[1];
+                        }
+                        else{
+                             return projection(["0","0"])[0];;
+                        }
+                      })
+                      .attr("r", function(d) {
+                        return Math.sqrt(d.radio) * 3;
+                      })
+                      .style("fill", "red")
+                      .on("mouseover", function(d) {      
+                          div.transition()        
+                            .duration(200)      
+                            .style("opacity", .9);      
+                          div.text(d.Tipo)
+                            .style("left", (d3.event.pageX) + "px")     
+                            .style("top", (d3.event.pageY - 28) + "px");    
+                      })              
+                      .on("mouseout", function(d) {       
+                          div.transition()        
+                             .duration(500)      
+                             .style("opacity", 0);   
+                      });
+                  console.log("checked Other")   
+                }
+                if(colorCheckboxSelected){
+                  svg.selectAll("circle")
+                      .data(data)
+                      .attr("cx", function(d) {
+                        if(d.Tipo === "Cuatro" && selectValue === "Todos" && !moveCheckboxSelected && !sizeCheckboxSelected && !otherCheckboxSelected && !colorCheckboxSelected){
+                            return projection([d.lon, d.lat])[0]; 
+                        }
+                        else if(d.Tipo === "Cuatro" && selectValue === d.Estado){
+                            return projection([d.lon, d.lat])[0];
+                        }
+                        else{
+                            return projection(["0","0"])[0];;
+                        }   
+                      })
+                      .attr("cy", function(d) {
+                        if(d.Tipo === "Cuatro" && selectValue === "Todos" && !moveCheckboxSelected && !sizeCheckboxSelected && !otherCheckboxSelected && !colorCheckboxSelected){
+                            return projection([d.lon, d.lat])[1]; 
+                        }
+                        else if(d.Tipo === "Cuatro" && selectValue === d.Estado){
+                            return projection([d.lon, d.lat])[1];
+                          }
+                          else{
+                             return projection(["0","0"])[0];;
+                          }
+                      })
+                      .attr("r", function(d) {
+                        return Math.sqrt(d.radio) * 3;
+                      })
+                      .style("fill", "red")
+                      .on("mouseover", function(d) {      
+                          div.transition()        
+                            .duration(200)      
+                            .style("opacity", .9);      
+                          div.text(d.Tipo)
+                            .style("left", (d3.event.pageX) + "px")     
+                            .style("top", (d3.event.pageY - 28) + "px");    
+                      })              
+                      .on("mouseout", function(d) {       
+                          div.transition()        
+                             .duration(500)      
+                             .style("opacity", 0);   
+                      });
+                  console.log("checked Color")   
+                }
+            }); // END #target onclick
+       });  // END On chage (SELECT-OPTION-ESTADO)
+
+          var selectAs = d3.select('form')
+                .data(data)
+                  .append('select')
+                  .attr("id", "selecIdAs")
+                  .on('change', function(d) {
+
+                    $('input[type="checkbox"]:checked').prop('checked',false);
+
+                    var selectValueAs = d3.select('#selecIdAs').property('value');
+                    var selectValuex = d3.select('#selecId').property('value');
+
+                     svg.selectAll("circle")
+                      .data(data)
+                      .attr("cx", function(d) {
+                          if(selectValueAs === d.Asociacion && selectValuex === "Todos" ){
+                            return projection([d.lon, d.lat])[0];
+                            console.log("Tooodos cx") 
+                          }
+                          else if(selectValueAs === d.Asociacion && selectValuex === d.Estado ){
+                            return projection([d.lon, d.lat])[0];
+                          }
+                          else { return projection(["0","0"])[0]; console.log("Tooodos NO") }      
+                      })
+                      .attr("cy", function(d) {
+                          if(selectValueAs === d.Asociacion && selectValuex === "Todos" ){
+                            return projection([d.lon, d.lat])[1];
+                            console.log("Tooodos cy") 
+                          }
+                          else if(selectValueAs === d.Asociacion && selectValuex === d.Estado){
+                            return projection([d.lon, d.lat])[1];
+                          }
+                          else { return projection(["0","0"])[1]; console.log("Tooodos NO") }
+                      })
+                      .attr("r", function(d) {
+                        return Math.sqrt(d.radio) * 3;
+                      })
+                      .style("fill", "red")
+                      .on("mouseover", function(d) {      
+                          div.transition()        
+                            .duration(200)      
+                            .style("opacity", .9);      
+                          div.text(d.Tipo)
+                            .style("left", (d3.event.pageX) + "px")     
+                            .style("top", (d3.event.pageY - 28) + "px");    
+                      })              
+                      .on("mouseout", function(d) {       
+                          div.transition()        
+                             .duration(500)      
+                             .style("opacity", 0);   
+                      });
+                  }); // END Option Value Asociacon
+
+
+
+
+                  var optionsAs = selectAs
+                    .selectAll('option')
+                    .data(data).enter()
+                    .append('option')
+                      .attr("value", function (d) { return d.Asociacion; })
+                      .text(function (d) { return d.Asociacion; });
+
+
+                    var options = select
+                    .selectAll('option')
+                    .data(data).enter()
+                    .append('option')
+                      .attr("value", function (d) { return d.Estado; })
+                      .text(function (d) { return d.Estado; });
+
+                    
+
+                 
+                    $("select").prepend( '<option selected value="Prueba"></option>');
+                    $("select").prepend( '<option id="todosId" value="Todos">Todos</option>');
+                    $("select option:nth-child(2)").css( "display", "none");
+
+                                            
+        }); /* END CSV */
+      }); /* END JSON */
+
+
+
+                function zoomed() {
+                    svg.attr("transform",
+                        "translate(" + zoom.translate() + ")" +
+                        "scale(" + zoom.scale() + ")"
+                    );
+                } // END zoomed
+
+                function interpolateZoom (translate, scale) {
+                    var self = this;
+                    return d3.transition().duration(350).tween("zoom", function () {
+                        var iTranslate = d3.interpolate(zoom.translate(), translate),
+                            iScale = d3.interpolate(zoom.scale(), scale);
+                        return function (t) {
+                            zoom
+                                .scale(iScale(t))
+                                .translate(iTranslate(t));
+                            zoomed();
+                        };
+                    });
+                } // END interpolateZoom
+
+
+                function zoomClick() {
+                    var clicked = d3.event.target,
+                        direction = 1,
+                        factor = 0.2,
+                        target_zoom = 1,
+                        center = [width / 2, height / 2],
+                        extent = zoom.scaleExtent(),
+                        translate = zoom.translate(),
+                        translate0 = [],
+                        l = [],
+                        view = {x: translate[0], y: translate[1], k: zoom.scale()};
+
+                    d3.event.preventDefault();
+                    direction = (this.id === 'zoom_in') ? 1 : -1;
+                    target_zoom = zoom.scale() * (1 + factor * direction);
+
+                    if (target_zoom < extent[0] || target_zoom > extent[1]) { return false; }
+
+                    translate0 = [(center[0] - view.x) / view.k, (center[1] - view.y) / view.k];
+                    view.k = target_zoom;
+                    l = [translate0[0] * view.k + view.x, translate0[1] * view.k + view.y];
+
+                    view.x += center[0] - l[0];
+                    view.y += center[1] - l[1];
+
+                    interpolateZoom([view.x, view.y], view.k);
+
+                } // END zoomClick
+
+                d3.selectAll('#zoom_in').on('click', zoomClick);
+                d3.selectAll('#zoom_out').on('click', zoomClick);
+
+
+
+</script>
+
+
+
+</body>
+</html>

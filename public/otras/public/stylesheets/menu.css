@@ -1,0 +1,75 @@
+
+	.lateralNav {
+		position: absolute;
+		width: auto;
+		height: 100vh;
+		background-color: black;
+	}
+
+	.lateralUl {
+		position: relative;
+		width: 100%;
+		margin: 0px;
+		padding: 0px;
+		background-color: pink;
+	}
+
+	.lateralNav ul a li {
+		position: relative;
+		width: 100%;
+		height: calc((100% - 50px)/8);
+		color: white;
+		text-align: center;
+		float: none;
+		margin: 0px;
+		padding: 5px;
+		display: flex;
+		background-color: blue;
+	}
+
+	.lateralNav ul a  li span{
+		position: absolute;
+		background-color: orange;
+		left:60px;
+		width: 100px;
+		height: 100%;
+		transition:width 2s;
+	    -moz-transition:width 2s; /* Firefox 4 */
+	    -webkit-transition:width 2s; /* Safari and Chrome */
+	    -o-transition:width 2s; /* Opera */
+	
+	}
+
+	.lateralNav ul a  li i{
+		position: relative;
+		width: 50px;
+		height: auto;
+		margin: auto;
+		font-size: 21px;
+		background-color: green;
+		float: left;
+	}
+
+
+
+	a {
+		color: white;
+	}
+	a:hover {
+		color: white;
+	}
+
+
+
+	.Navigation-list.is-hidden {
+	    display: none;	    
+	}
+
+
+	.Navigation-list {
+	    display: inline-block;
+
+	}
+
+
+

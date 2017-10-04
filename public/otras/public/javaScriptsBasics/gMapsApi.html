@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <meta charset="utf-8">
+      <title>Resume</title>
+      <link href="css/jsBasicsStyle.css" rel="stylesheet">
+
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+  </head>
+
+
+<body>
+ 
+  <!-- GOOGLE MAPS buttons-->
+      <p style="font-size: black; font-weight: bold; width: 300px; padding: 2px; border-bottom:1px solid orange;"> HAZ CLICK EN ALGÚN BOTÓN o Elije alúno de la lista</p>
+
+      <div id="1" class="btn btn-warning" style="padding:4px; cursor:pointer;">Tabasco</div>
+      <div id="2" class="btn btn-warning" style="padding:4px;cursor:pointer;">Colima</div>
+      <div id="3" class="btn btn-warning" style="padding:4px;cursor:pointer;">Magamex</div>
+      <br>
+      <br>
+
+
+
+  <!-- SELECCION DE LISTA GEOENCODER -->
+
+      <select id="dropdown" style="font-size: black; font-weight: bold; width: 300px; padding: 20px;">
+          <option value="1" selected>Chihuahua</option>
+          <option value="2">Veracruz</option>
+          <option value="3">Merida</option>
+          <option value="4">Monterrey</option>
+          <option value="5">Queretaro</option>
+      </select>
+
+      <i class="material-icons">&#xE55E;</i>
+      <div id="info" style="font-size: black; font-weight: bold; width: 200px; padding-left: 34px;"></div>
+
+
+  <!-- GOOGLE MAPS __ CANVAS-->
+        <div style="height:100vh;" id="map-canvas"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Jquery & Google Maps API-Key reference -->
+    <!-- DEBEN DE IR DENTRO DEL BODY, DESPUES DEL HTML Y ANTES DEL SCRIPT PARA QUE LA API FUNCIONE-->
+
+      <!-- libraries=places below when you're ready to add an interactive Google Map to your resume! -->
+        <script src="http://maps.googleapis.com/maps/api/js?libraries=places"></script>
+        <!-- http://stackoverflow.com/questions/28499141/how-to-change-google-map-center-by-clicking-a-button -->
+
+        <script src="js/jQuery.js"></script>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCOC8pNq7wzPMAFeY_bvYLpvvKLMlv6Lzg&callback=initMap"></script>
+
+<!-- GOOGLE MAPS API -->
+    <script src="js/primerMapa.js" ></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

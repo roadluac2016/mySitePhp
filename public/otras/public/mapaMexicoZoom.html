@@ -1,0 +1,2238 @@
+
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Data visualization-responsive"/>
+
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+        <!-- d3 -->
+        <script src="http://lobohornosindustriales.com.mx/d3.min.js" ></script>
+        <script src="http://lobohornosindustriales.com.mx/topojson.v2.min.js"></script>
+
+        <!-- Angular ICONS -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+        <!-- CSS Gral. -->
+        <link href="stylesheets/mapa.css" rel="stylesheet">
+      
+        <title> MAPA </title>
+    </head>
+
+
+
+    <body> 
+
+
+
+<!--  
+<div class="contentTitle" >
+<?php the_title(); ?> </div>
+<div  class="datePoster" >
+<?php echo get_the_date(); ?></div><br>
+
+<div class="contentPoster" >
+<?php the_content(); ?> </div><br>
+
+<div>
+      <?php the_content(); ?>
+      <?php echo get_the_date(); ?>
+      </div>
+
+-->
+
+
+
+
+
+
+
+          <section>
+              <article>
+                <div class="row" style="border: 1px solid #c9c9c9;" >
+                       <div class="col-2 col-md-2">
+                           <form>
+                                <label>Estadooo:</label><br>
+                                <select id="inputBusquedaEdo">
+                                <option style="display: none;" disabled selected value> Selecciona Estado </option>
+                                  <option value="Aguascalientes">Aguascalientes</option>
+                                  <option value="BajaCaliforniaNorte">Baja California Norte</option>
+                                  <option value="BajaCaliforniaSur">Baja California Sur</option>
+                                  <option value="Campeche">Campeche</option>
+                                  <option value="Chiapas">Chiapas</option>
+                                  <option value="Chihuahuax">Chihuahua</option>
+                                  <option value="CiudadDeMexico">Ciudad de México</option>
+                                  <option value="Coahuila">Coahuila</option>
+                                  <option value="Colima">Colima</option>
+                                  <option value="EstadoDeMexico">Estado de México</option>
+                                  <option value="Guerrero">Guerrero</option>
+                                  <option value="Jalisco">Jalisco</option>
+                                  <option value="Michoacan">Michoacán</option>
+                                  <option value="NuevoLeon">Nuevo León</option>
+                                  <option value="Oaxaca">Oaxaca</option>
+                                  <option value="Puebla">Puebla</option>
+                                  <option value="QuintanaRoo">Quintana Roo</option>
+                                  <option value="Sinaloa">Sinaloa</option>
+                                  <option value="Sonora">Sonora</option>
+                                  <option value="Tabasco">Tabasco</option>
+                                  <option value="Tamaulipas">Tamaulipas</option>
+                                  <option value="Veracruz">Veracruz</option>
+                                  <option value="Yucatan">Yucatán</option>
+                                </select>
+                            </form>    
+                            <div style="position: relative; width: 100%;height: auto;" id="infoMex"></div>                 
+                       </div> <!-- END col-md-6 -->  
+
+
+
+                       <div class="col-10 col-md-10">
+                        <!-- GeoMaps   CONTAINER-->
+                              <div id="container"></div>  
+                         <!-- GeoMaps Z O O M-Buttons -->
+                            <div class="zoomBtns">
+                                <p> 
+                                  <i style="color: white;" class="material-icons">&#xE87A;</i>
+                                  <span>Click - ZOOM </span>
+                                </p>
+                                <button id="zoom_out"><i class="material-icons zoomBtnsmaterial">&#xE900;</i></button>        
+                                <button id="zoom_in"><i class="material-icons zoomBtnsmaterial">&#xE8FF;</i></button>
+                            </div>
+                          <!-- GeoMaps TOOLTIPS -->
+                            <div class="info">
+                                  <h1 class="h1cc" id="nameht"></h1>
+                                  <h1 class="leadscc" id="leadsht"></h1>
+                            </div>
+                       <div> <!-- END col-md-6 -->
+                </div> <!-- END row -->
+             </article>
+          </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- D3 GEOMAPS -->
+
+    <script type="text/javascript">
+
+        var margin = { top: 10, right: 10, bottom: 10, left: 10 },
+        width = parseInt(d3.select("#container").style('width'), 10),
+        width = width - margin.left - margin.right,
+
+        ratio = .5,
+        height = width * ratio+10;
+
+        var zoom = d3.behavior.zoom();
+
+        //define projection
+        var projection = d3.geo.mercator()
+            .center([-100, 22])
+            .translate([ width/1.7, height/1.7])
+            .scale([ width/.7 ]);
+
+        //define path generator
+        var path = d3.geo.path()
+            .projection(projection)
+
+        //svg
+        var svg = d3.select("#container")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height)
+              .call(d3.behavior.zoom().on("zoom", function () {
+                    svg.attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")")
+                  })
+              )
+            .append("g");
+
+        //load GeoJson data
+        d3.json("mexico.json", function(json) {
+
+ 
+
+            //append the tooltip divs
+            var div = d3.select("body").append("div")
+                .attr("class", "tooltip")
+                .style("opacity", 0);
+
+            var div2 = d3.select("body").append("div")
+                .attr("class", "tooltip")
+                .style("opacity", 0);
+
+            // bind data
+            svg.selectAll("path")
+                .data(json.features)
+                .enter()
+                .append("path")
+                .attr("d", path)
+                .attr( "fill", "#b1d2db" )
+
+                  .on("mouseout", function(d) {
+                      div.transition()
+                      .duration(500)
+                      .style("opacity", 0);
+                  })
+      
+
+                // Geographical Ubicactions (ALNG - LAT)
+                      Chihuahua = [-108.1, 31.8, "Info"];
+                      Chihuahua2 = [-106.177333, 31.4, "Info"];
+                      Chihuahua3 = [-104.9333, 29.6, "Info"];
+                      Chihuahua4 = [-107.1060524098454, 27.770258280947502, "Info"];
+
+                      Sonora = [-110.9, 28.1, "Info"];
+                      Sonora2 = [-114.6, 32.3, "Info"];
+                      Sonora3 = [-112.6, 31.25, "Info"];
+                      Sonora4 = [-111.1060524098454, 31.25, "Info"];
+                      Sonora5 = [-110.1060524098454, 31.25, "Info"];
+                      Sonora6 = [-109, 31.25, "Info"];
+
+                      Bcn = [-116.5, 32.5, "Info"];
+                      Bcn2 = [-115.98, 32.49, "Info"];
+                      Bcn3 = [-115.4, 32.5, "Info"];
+                      Bcn4 = [-115.84, 30.3, "Info"];
+
+                      Bcs = [-110.5, 24, "Info"];
+
+                      Coahuila = [-102.6, 25.4, "Info"];
+                      Coahuila2 = [-101.3, 29.49, "Info"];
+                      Coahuila3 = [-101.9, 29.7, "Info"];
+
+                      NuevoLeon = [-100.1, 24.89, "Info"];
+                      NuevoLeon2 = [-100.18, 27.65, "Info"];
+                      NuevoLeon3 = [-99.88, 27.07, "Info"];
+                      NuevoLeon4 = [-99.4, 26.4, "Info"];
+                      NuevoLeon5 = [-98.84, 25.9, "Info"];
+
+                      Tamaulipas = [-98.2, 22.7, "Info"];
+                      Tamaulipas2 = [-98.18, 25.95, "Info"];
+                      Tamaulipas3 = [-97.47, 25.82, "Info"];
+                      Tamaulipas4 = [-98.3, 23.5, "Info"];
+
+                      Veracruz = [-97.68, 21.1, "Info"];
+                      Veracruz2 = [-95.7, 18.6, "Info"];
+                      Veracruz3 = [-94.4, 17.98, "Info"];
+
+                      Sinaloa = [-107.18, 24.35, "Info"];
+
+                      Aguascalientes = [-102.2, 22.1, "Info"];
+
+                      Jalisco = [-104.2, 20.1, "Info"];
+
+                      Colima = [-103.8, 19.1, "Info"];
+
+                      Michoacan = [-102.3, 18.23, "Info"];
+
+                      Guerrero = [-99.98, 17.13, "Info"];
+
+                      EstadoDeMexico = [-99.82, 19.58, "Info"];
+
+                      CiudadDeMexico = [-99.1, 19.32, "Info"];
+
+                      Puebla = [-97.68, 18.7, "Info"];
+
+                      Oaxaca = [-95.43, 16.28, "Info"];
+
+                      Tabasco = [-93.05, 18.18, "Info"];
+
+                      Chiapas = [-92.58, 15.25, "Info"];
+
+                      Campeche = [-91.26, 18.5, "Info"];
+
+                      QuintanaRoo = [-88.86, 18.69, "Info"];
+                      QuintanaRoo2 = [-87.21, 21.19, "Info"];
+
+                      Yucatan = [-89.75, 21.09, "Info"];
+
+
+
+              // Chihuahua
+                      svg.selectAll("circle")
+                      .data([Chihuahua,Chihuahua2,Chihuahua3,Chihuahua4])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("display","none")
+                          .attr("class", "chihuahuaID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                  div2.text(d[2])
+                                       .style("left", (d3.event.pageX) + "px")
+                                       .style("top", (d3.event.pageY - 28) + "px");   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                             
+                                });
+             
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "Chihuahuax"){
+                                       $(".chihuahuaID").css("display", "block"); 
+                                       $(".chihuahuaID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".chihuahuaID").css("display", "none"); 
+                                    };
+                                  });
+
+              // Aguascalientes
+                      svg.selectAll(".AguascalientesID")
+                      .data([Aguascalientes])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("display","none")
+                          .attr("class", "AguascalientesID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "Aguascalientes"){
+                                       $(".AguascalientesID").css("display", "block"); 
+                                       $(".AguascalientesID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".AguascalientesID").css("display", "none"); 
+                                    };
+                          });
+
+              // BC Norte
+                      svg.selectAll(".bcNorteID")
+                      .data([Bcn,Bcn2,Bcn3,Bcn4])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("display","none")
+                          .attr("class", "bcNorteID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "BajaCaliforniaNorte"){
+                                       $(".bcNorteID").css("display", "block"); 
+                                       $(".bcNorteID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".bcNorteID").css("display", "none"); 
+                                    };
+                          });
+
+
+              // BC Sur
+                      svg.selectAll(".BajaCaliforniaSurID")
+                      .data([Bcs])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("display","none")
+                          .attr("class", "BajaCaliforniaSurID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "BajaCaliforniaSur"){
+                                       $(".BajaCaliforniaSurID").css("display", "block"); 
+                                       $(".BajaCaliforniaSurID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".BajaCaliforniaSurID").css("display", "none"); 
+                                    };
+                          });
+
+
+
+              // Campece
+                      svg.selectAll(".CampecheID")
+                      .data([Campeche])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("display","none")
+                          .attr("class", "CampecheID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "Campeche"){
+                                       $(".CampecheID").css("display", "block"); 
+                                       $(".CampecheID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".CampecheID").css("display", "none"); 
+                                    };
+                          });                                 
+
+
+
+
+              // Chiapas
+                      svg.selectAll(".ChiapasID")
+                      .data([Chiapas])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("display","none")
+                          .attr("class", "ChiapasID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "Chiapas"){
+                                       $(".ChiapasID").css("display", "block"); 
+                                       $(".ChiapasID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".ChiapasID").css("display", "none"); 
+                                    };
+                          }); 
+
+
+              // CDMX
+                      svg.selectAll(".CiudadDeMexicoID")
+                      .data([CiudadDeMexico])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("display","none")
+                          .attr("class", "CiudadDeMexicoID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "CiudadDeMexico"){
+                                       $(".CiudadDeMexicoID").css("display", "block"); 
+                                       $(".CiudadDeMexicoID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".CiudadDeMexicoID").css("display", "none"); 
+                                    };
+                          });
+
+
+
+              // Coahuila
+                      svg.selectAll(".CoahuilaID")
+                      .data([Coahuila, Coahuila2, Coahuila3])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("display","none")
+                          .attr("class", "CoahuilaID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "Coahuila"){
+                                       $(".CoahuilaID").css("display", "block"); 
+                                       $(".CoahuilaID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".CoahuilaID").css("display", "none"); 
+                                    };
+                          });
+
+
+              // Colima
+                      svg.selectAll(".ColimaID")
+                      .data([Colima])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("display","none")
+                          .attr("class", "ColimaID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "Colima"){
+                                       $(".ColimaID").css("display", "block"); 
+                                       $(".ColimaID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".ColimaID").css("display", "none"); 
+                                    };
+                          });
+
+
+              // EDO. Mex
+                      svg.selectAll(".EstadoDeMexicoID")
+                      .data([EstadoDeMexico])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("display","none")
+                          .attr("class", "EstadoDeMexicoID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "EstadoDeMexico"){
+                                       $(".EstadoDeMexicoID").css("display", "block"); 
+                                       $(".EstadoDeMexicoID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".EstadoDeMexicoID").css("display", "none"); 
+                                    };
+                          });
+
+
+
+              // Guerrero
+                      svg.selectAll(".GuerreroID")
+                      .data([Guerrero])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("display","none")
+                          .attr("class", "GuerreroID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "Guerrero"){
+                                       $(".GuerreroID").css("display", "block"); 
+                                       $(".GuerreroID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".GuerreroID").css("display", "none"); 
+                                    };
+                          });
+
+
+              // Jalisco
+                      svg.selectAll(".JaliscoID")
+                      .data([Jalisco])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("display","none")
+                          .attr("class", "JaliscoID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "Jalisco"){
+                                       $(".JaliscoID").css("display", "block"); 
+                                       $(".JaliscoID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".JaliscoID").css("display", "none"); 
+                                    };
+                          });
+
+
+              // MichoacanID
+                      svg.selectAll(".MichoacanID")
+                      .data([Michoacan])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("display","none")
+                          .attr("class", "MichoacanID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "Michoacan"){
+                                       $(".MichoacanID").css("display", "block"); 
+                                       $(".MichoacanID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".MichoacanID").css("display", "none"); 
+                                    };
+                          });
+
+
+
+              // NuevoLeon
+                      svg.selectAll(".NuevoLeonID")
+                      .data([NuevoLeon, NuevoLeon2, NuevoLeon3, NuevoLeon4, NuevoLeon5])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("display","none")
+                          .attr("class", "NuevoLeonID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "NuevoLeon"){
+                                       $(".NuevoLeonID").css("display", "block"); 
+                                       $(".NuevoLeonID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".NuevoLeonID").css("display", "none"); 
+                                    };
+                          }); 
+
+
+
+              // Oaxaca
+                      svg.selectAll(".OaxacaID")
+                      .data([Oaxaca])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("display","none")
+                          .attr("class", "OaxacaID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "Oaxaca"){
+                                       $(".OaxacaID").css("display", "block"); 
+                                       $(".OaxacaID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".OaxacaID").css("display", "none"); 
+                                    };
+                          }); 
+
+
+              // Oaxaca
+                      svg.selectAll(".OaxacaID")
+                      .data([Oaxaca])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("display","none")
+                          .attr("class", "OaxacaID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "Oaxaca"){
+                                       $(".OaxacaID").css("display", "block"); 
+                                       $(".OaxacaID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".OaxacaID").css("display", "none"); 
+                                    };
+                          });
+
+
+              // Puebla
+                      svg.selectAll(".PueblaID")
+                      .data([Puebla])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("display","none")
+                          .attr("class", "PueblaID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "Puebla"){
+                                       $(".PueblaID").css("display", "block"); 
+                                       $(".PueblaID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".PueblaID").css("display", "none"); 
+                                    };
+                          });
+
+
+                                 
+              // QuintanaRoo
+                      svg.selectAll(".QuintanaRooID")
+                      .data([QuintanaRoo, QuintanaRoo2])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("display","none")
+                          .attr("class", "QuintanaRooID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "QuintanaRoo"){
+                                       $(".QuintanaRooID").css("display", "block"); 
+                                       $(".QuintanaRooID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".QuintanaRooID").css("display", "none"); 
+                                    };
+                          });
+
+              // Sinaloa
+                      svg.selectAll(".SinaloaID")
+                      .data([Sinaloa])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("display","none")
+                          .attr("class", "SinaloaID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "Sinaloa"){
+                                       $(".SinaloaID").css("display", "block"); 
+                                       $(".SinaloaID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".SinaloaID").css("display", "none"); 
+                                    };
+                          });
+
+
+
+
+              // Sonora
+                      svg.selectAll(".SonoraID")
+                      .data([Sonora, Sonora2, Sonora3, Sonora4, Sonora5, Sonora6])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("display","none")
+                          .attr("class", "SonoraID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "Sonora"){
+                                       $(".SonoraID").css("display", "block"); 
+                                       $(".SonoraID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".SonoraID").css("display", "none"); 
+                                    };
+                          });   
+
+
+              // Tabasco
+                      svg.selectAll(".TabascoID")
+                      .data([Tabasco])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("display","none")
+                          .attr("class", "TabascoID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "Tabasco"){
+                                       $(".TabascoID").css("display", "block"); 
+                                       $(".TabascoID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".TabascoID").css("display", "none"); 
+                                    };
+                          });
+
+
+              // Tamaulipas
+                      svg.selectAll(".TamaulipasID")
+                      .data([Tamaulipas, Tamaulipas2, Tamaulipas3, Tamaulipas4])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("display","none")
+                          .attr("class", "TamaulipasID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "Tamaulipas"){
+                                       $(".TamaulipasID").css("display", "block"); 
+                                       $(".TamaulipasID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".TamaulipasID").css("display", "none"); 
+                                    };
+                          });
+
+
+              // Veracruz
+                      svg.selectAll(".VeracruzID")
+                      .data([Veracruz, Veracruz2, Veracruz3])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("display","none")
+                          .attr("class", "VeracruzID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "Veracruz"){
+                                       $(".VeracruzID").css("display", "block"); 
+                                       $(".VeracruzID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".VeracruzID").css("display", "none"); 
+                                    };
+                          }); 
+
+              // Yucatan
+                      svg.selectAll(".YucatanID")
+                      .data([Yucatan])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("display","none")
+                          .attr("class", "YucatanID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "Yucatan"){
+                                       $(".YucatanID").css("display", "block"); 
+                                       $(".YucatanID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".YucatanID").css("display", "none"); 
+                                    };
+                          }); 
+
+        }); /*-- D3.json End */
+
+
+
+
+                function zoomed() {
+                    svg.attr("transform",
+                        "translate(" + zoom.translate() + ")" +
+                        "scale(" + zoom.scale() + ")"
+                    );
+                } // END zoomed
+
+                function interpolateZoom (translate, scale) {
+                    var self = this;
+                    return d3.transition().duration(350).tween("zoom", function () {
+                        var iTranslate = d3.interpolate(zoom.translate(), translate),
+                            iScale = d3.interpolate(zoom.scale(), scale);
+                        return function (t) {
+                            zoom
+                                .scale(iScale(t))
+                                .translate(iTranslate(t));
+                            zoomed();
+                        };
+                    });
+                } // END interpolateZoom
+
+                function zoomClick() {
+                    var clicked = d3.event.target,
+                        direction = 1,
+                        factor = 0.2,
+                        target_zoom = 1,
+                        center = [width / 2, height / 2],
+                        extent = zoom.scaleExtent(),
+                        translate = zoom.translate(),
+                        translate0 = [],
+                        l = [],
+                        view = {x: translate[0], y: translate[1], k: zoom.scale()};
+
+                    d3.event.preventDefault();
+                    direction = (this.id === 'zoom_in') ? 1 : -1;
+                    target_zoom = zoom.scale() * (1 + factor * direction);
+
+                    if (target_zoom < extent[0] || target_zoom > extent[1]) { return false; }
+
+                    translate0 = [(center[0] - view.x) / view.k, (center[1] - view.y) / view.k];
+                    view.k = target_zoom;
+                    l = [translate0[0] * view.k + view.x, translate0[1] * view.k + view.y];
+
+                    view.x += center[0] - l[0];
+                    view.y += center[1] - l[1];
+
+                    interpolateZoom([view.x, view.y], view.k);
+
+                } // END zoomClick
+
+
+                d3.selectAll('button').on('click', zoomClick);
+
+
+
+
+
+
+
+    // ______ resize function
+
+        function resizeResp(){
+                d3.select('svg').remove();
+
+                width = parseInt(d3.select("#container").style('width'), 10),
+                width = width - margin.left - margin.right,
+                //ratio doesn't always have to be perfect, just about the ratio between the height and width--so that it won't resize based on a height larger than the container
+                ratio = .5,
+                height = width * ratio;
+
+                //define projection
+                var projection = d3.geo.mercator()
+                    .center([-100, 22])
+                    .translate([ width/1.7, height/1.7])
+                    .scale([ width/.7 ]);
+
+                //define path generator
+                var path = d3.geo.path()
+                    .projection(projection)
+
+                //svg
+                var svg = d3.select("#container")
+                    .append("svg")
+                    .attr("width", width)
+                    .attr("height", height);
+
+                //load GeoJson data
+                d3.json("mexico.json", function(json) {
+
+                      //append the tooltip divs
+                      var div = d3.select("body").append("div")
+                          .attr("class", "tooltip")
+                          .style("opacity", 0);
+
+                      // bind data
+                      svg.selectAll("path")
+                      .data(json.features)
+                      .enter()
+                      .append("path")
+                      .attr("d", path)
+                      .attr( "fill", "#c9c9c9" );/*
+                  .on('mouseover', function(d) { 
+
+                      div.transition()
+                      .duration(200)
+                      .style("opacity", .9);
+
+                      div.html( "<strong> Estado: </strong>" + "<br>" + d.properties.name + d.geometry.coordinates[0])
+                      .style("left", (d3.event.pageX) + "px")
+                      .style("top", (d3.event.pageY - 28) + "px");
+
+                      tabasco();
+                 })
+
+                  .on("mouseout", function(d) {
+                      div.transition()
+                      .duration(500)
+                      .style("opacity", 0);
+                  })
+                  .append("title")
+                  .text( function(d) {
+                      return d.properties.name + d.properties.leads;
+                  });*/
+
+
+
+
+                // Geographical Ubicactions (ALNG - LAT)
+                      Chihuahua = [-108.1, 31.8];
+                      Chihuahua2 = [-106.177333, 31.4];
+                      Chihuahua3 = [-104.9333, 29.6];
+                      Chihuahua4 = [-107.1060524098454, 27.770258280947502];
+
+                      Sonora = [-110.9, 28.1];
+                      Sonora2 = [-114.6, 32.3];
+                      Sonora3 = [-112.6, 31.25];
+                      Sonora4 = [-111.1060524098454, 31.25];
+                      Sonora5 = [-110.1060524098454, 31.25];
+                      Sonora6 = [-109, 31.25];
+
+                      Bcn = [-116.5, 32.5];
+                      Bcn2 = [-115.98, 32.49];
+                      Bcn3 = [-115.4, 32.5];
+                      Bcn4 = [-115.84, 30.3];
+
+                      Bcs = [-110.5, 24];
+
+                      Coahuila = [-102.6, 25.4];
+                      Coahuila2 = [-101.3, 29.49];
+                      Coahuila3 = [-101.9, 29.7];
+
+                      NuevoLeon = [-100.1, 24.89];
+                      NuevoLeon2 = [-100.18, 27.65];
+                      NuevoLeon3 = [-99.88, 27.07];
+                      NuevoLeon4 = [-99.4, 26.4];
+                      NuevoLeon5 = [-98.84, 25.9];
+
+                      Tamaulipas = [-98.2, 22.7];
+                      Tamaulipas2 = [-98.18, 25.95];
+                      Tamaulipas3 = [-97.47, 25.82];
+                      Tamaulipas4 = [-98.3, 23.5];
+
+                      Veracruz = [-97.68, 21.1];
+                      Veracruz2 = [-95.7, 18.6];
+                      Veracruz3 = [-94.4, 17.98];
+
+                      Sinaloa = [-107.18, 24.35];
+
+                      Aguascalientes = [-102.2, 22.1];
+
+                      Jalisco = [-104.2, 20.1];
+
+                      Colima = [-103.8, 19.1];
+
+                      Michoacan = [-102.3, 18.23];
+
+                      Guerrero = [-99.98, 17.13];
+
+                      EstadoDeMexico = [-99.82, 19.58];
+
+                      CiudadDeMexico = [-99.1, 19.32];
+
+                      Puebla = [-97.68, 18.7];
+
+                      Oaxaca = [-95.43, 16.28];
+
+                      Tabasco = [-93.05, 18.18];
+
+                      Chiapas = [-92.58, 15.25];
+
+                      Campeche = [-91.26, 18.5];
+
+                      QuintanaRoo = [-88.86, 18.69];
+                      QuintanaRoo2 = [-87.21, 21.19];
+
+                      Yucatan = [-89.75, 21.09];
+
+
+
+              // Chihuahua
+                      svg.selectAll("circle")
+                      .data([Chihuahua,Chihuahua2,Chihuahua3,Chihuahua4])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("class", "chihuahuaID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "Chihuahuax"){
+                                       $(".chihuahuaID").css("display", "block"); 
+                                       $(".chihuahuaID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".chihuahuaID").css("display", "none"); 
+                                    };
+                          });
+
+              // Aguascalientes
+                      svg.selectAll(".AguascalientesID")
+                      .data([Aguascalientes])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("class", "AguascalientesID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "Aguascalientes"){
+                                       $(".AguascalientesID").css("display", "block"); 
+                                       $(".AguascalientesID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".AguascalientesID").css("display", "none"); 
+                                    };
+                          });
+
+              // BC Norte
+                      svg.selectAll(".bcNorteID")
+                      .data([Bcn,Bcn2,Bcn3,Bcn4])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("class", "bcNorteID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "BajaCaliforniaNorte"){
+                                       $(".bcNorteID").css("display", "block"); 
+                                       $(".bcNorteID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".bcNorteID").css("display", "none"); 
+                                    };
+                          });
+
+
+              // BC Sur
+                      svg.selectAll(".BajaCaliforniaSurID")
+                      .data([Bcs])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("class", "BajaCaliforniaSurID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "BajaCaliforniaSur"){
+                                       $(".BajaCaliforniaSurID").css("display", "block"); 
+                                       $(".BajaCaliforniaSurID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".BajaCaliforniaSurID").css("display", "none"); 
+                                    };
+                          });
+
+
+
+              // Campece
+                      svg.selectAll(".CampecheID")
+                      .data([Campeche])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("class", "CampecheID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "Campeche"){
+                                       $(".CampecheID").css("display", "block"); 
+                                       $(".CampecheID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".CampecheID").css("display", "none"); 
+                                    };
+                          });                                 
+
+
+
+
+              // Chiapas
+                      svg.selectAll(".ChiapasID")
+                      .data([Chiapas])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("class", "ChiapasID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "Chiapas"){
+                                       $(".ChiapasID").css("display", "block"); 
+                                       $(".ChiapasID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".ChiapasID").css("display", "none"); 
+                                    };
+                          }); 
+
+
+              // CDMX
+                      svg.selectAll(".CiudadDeMexicoID")
+                      .data([CiudadDeMexico])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("class", "CiudadDeMexicoID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "CiudadDeMexico"){
+                                       $(".CiudadDeMexicoID").css("display", "block"); 
+                                       $(".CiudadDeMexicoID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".CiudadDeMexicoID").css("display", "none"); 
+                                    };
+                          });
+
+
+
+              // Coahuila
+                      svg.selectAll(".CoahuilaID")
+                      .data([Coahuila, Coahuila2, Coahuila3])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("class", "CoahuilaID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "Coahuila"){
+                                       $(".CoahuilaID").css("display", "block"); 
+                                       $(".CoahuilaID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".CoahuilaID").css("display", "none"); 
+                                    };
+                          });
+
+
+              // Colima
+                      svg.selectAll(".ColimaID")
+                      .data([Colima])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("class", "ColimaID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "Colima"){
+                                       $(".ColimaID").css("display", "block"); 
+                                       $(".ColimaID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".ColimaID").css("display", "none"); 
+                                    };
+                          });
+
+
+              // EDO. Mex
+                      svg.selectAll(".EstadoDeMexicoID")
+                      .data([EstadoDeMexico])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("class", "EstadoDeMexicoID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "EstadoDeMexico"){
+                                       $(".EstadoDeMexicoID").css("display", "block"); 
+                                       $(".EstadoDeMexicoID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".EstadoDeMexicoID").css("display", "none"); 
+                                    };
+                          });
+
+
+
+              // Guerrero
+                      svg.selectAll(".GuerreroID")
+                      .data([Guerrero])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("class", "GuerreroID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "Guerrero"){
+                                       $(".GuerreroID").css("display", "block"); 
+                                       $(".GuerreroID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".GuerreroID").css("display", "none"); 
+                                    };
+                          });
+
+
+              // Jalisco
+                      svg.selectAll(".JaliscoID")
+                      .data([Jalisco])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("class", "JaliscoID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "Jalisco"){
+                                       $(".JaliscoID").css("display", "block"); 
+                                       $(".JaliscoID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".JaliscoID").css("display", "none"); 
+                                    };
+                          });
+
+
+              // MichoacanID
+                      svg.selectAll(".MichoacanID")
+                      .data([Michoacan])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("class", "MichoacanID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "Michoacan"){
+                                       $(".MichoacanID").css("display", "block"); 
+                                       $(".MichoacanID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".MichoacanID").css("display", "none"); 
+                                    };
+                          });
+
+
+
+              // NuevoLeon
+                      svg.selectAll(".NuevoLeonID")
+                      .data([NuevoLeon, NuevoLeon2, NuevoLeon3, NuevoLeon4, NuevoLeon5])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("class", "NuevoLeonID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "NuevoLeon"){
+                                       $(".NuevoLeonID").css("display", "block"); 
+                                       $(".NuevoLeonID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".NuevoLeonID").css("display", "none"); 
+                                    };
+                          }); 
+
+
+
+              // Oaxaca
+                      svg.selectAll(".OaxacaID")
+                      .data([Oaxaca])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("class", "OaxacaID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "Oaxaca"){
+                                       $(".OaxacaID").css("display", "block"); 
+                                       $(".OaxacaID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".OaxacaID").css("display", "none"); 
+                                    };
+                          }); 
+
+
+              // Oaxaca
+                      svg.selectAll(".OaxacaID")
+                      .data([Oaxaca])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("class", "OaxacaID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "Oaxaca"){
+                                       $(".OaxacaID").css("display", "block"); 
+                                       $(".OaxacaID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".OaxacaID").css("display", "none"); 
+                                    };
+                          });
+
+
+              // Puebla
+                      svg.selectAll(".PueblaID")
+                      .data([Puebla])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("class", "PueblaID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "Puebla"){
+                                       $(".PueblaID").css("display", "block"); 
+                                       $(".PueblaID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".PueblaID").css("display", "none"); 
+                                    };
+                          });
+
+
+                                 
+              // QuintanaRoo
+                      svg.selectAll(".QuintanaRooID")
+                      .data([QuintanaRoo, QuintanaRoo2])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("class", "QuintanaRooID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "QuintanaRoo"){
+                                       $(".QuintanaRooID").css("display", "block"); 
+                                       $(".QuintanaRooID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".QuintanaRooID").css("display", "none"); 
+                                    };
+                          });
+
+              // Sinaloa
+                      svg.selectAll(".SinaloaID")
+                      .data([Sinaloa])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("class", "SinaloaID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "Sinaloa"){
+                                       $(".SinaloaID").css("display", "block"); 
+                                       $(".SinaloaID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".SinaloaID").css("display", "none"); 
+                                    };
+                          });
+
+
+
+
+              // Sonora
+                      svg.selectAll(".SonoraID")
+                      .data([Sonora, Sonora2, Sonora3, Sonora4, Sonora5, Sonora6])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("class", "SonoraID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "Sonora"){
+                                       $(".SonoraID").css("display", "block"); 
+                                       $(".SonoraID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".SonoraID").css("display", "none"); 
+                                    };
+                          });   
+
+
+              // Tabasco
+                      svg.selectAll(".TabascoID")
+                      .data([Tabasco])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("class", "TabascoID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "Tabasco"){
+                                       $(".TabascoID").css("display", "block"); 
+                                       $(".TabascoID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".TabascoID").css("display", "none"); 
+                                    };
+                          });
+
+
+              // Tamaulipas
+                      svg.selectAll(".TamaulipasID")
+                      .data([Tamaulipas, Tamaulipas2, Tamaulipas3, Tamaulipas4])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("class", "TamaulipasID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "Tamaulipas"){
+                                       $(".TamaulipasID").css("display", "block"); 
+                                       $(".TamaulipasID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".TamaulipasID").css("display", "none"); 
+                                    };
+                          });
+
+
+              // Veracruz
+                      svg.selectAll(".VeracruzID")
+                      .data([Veracruz, Veracruz2, Veracruz3])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("class", "VeracruzID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "Veracruz"){
+                                       $(".VeracruzID").css("display", "block"); 
+                                       $(".VeracruzID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".VeracruzID").css("display", "none"); 
+                                    };
+                          }); 
+
+              // Yucatan
+                      svg.selectAll(".YucatanID")
+                      .data([Yucatan])
+                        .enter()
+                          .append("circle")
+                          .attr("cx", function (d) { return projection(d)[0]; })
+                          .attr("cy", function (d) { return projection(d)[1]; })
+                          .attr("r", "4px")
+                          .attr("class", "YucatanID")
+                            .on("mouseover", function(d) {      
+                                  div2.transition()        
+                                       .duration(200)      
+                                       .style("opacity", .9);      
+                                       div2.text(d[2])   
+                              })   
+
+                                // fade out tooltip on mouse out               
+                                .on("mouseout", function(d) {       
+                                    div2.transition()        
+                                       .duration(500)      
+                                       .style("opacity", 0);   
+                                });
+
+                                  $("#inputBusquedaEdo").bind("change keyup", function(d){
+                                      if ($("#inputBusquedaEdo").val() === "Yucatan"){
+                                       $(".YucatanID").css("display", "block"); 
+                                       $(".YucatanID").attr("fill", "red");
+                                    } 
+                                    else { 
+                                        $(".YucatanID").css("display", "none"); 
+                                    };
+                          }); 
+
+                      
+
+                }); /*-- D3.json End */
+
+
+
+
+    // SET ZOOM Function
+                function zoomed() {
+                    svg.attr("transform",
+                        "translate(" + zoom.translate() + ")" +
+                        "scale(" + zoom.scale() + ")"
+                    );
+                } // END zoomed
+
+                function interpolateZoom (translate, scale) {
+                    var self = this;
+                    return d3.transition().duration(350).tween("zoom", function () {
+                        var iTranslate = d3.interpolate(zoom.translate(), translate),
+                            iScale = d3.interpolate(zoom.scale(), scale);
+                        return function (t) {
+                            zoom
+                                .scale(iScale(t))
+                                .translate(iTranslate(t));
+                            zoomed();
+                        };
+                    });
+                } // END interpolateZoom
+
+                function zoomClick() {
+                    var clicked = d3.event.target,
+                        direction = 1,
+                        factor = 0.2,
+                        target_zoom = 1,
+                        center = [width / 2, height / 2],
+                        extent = zoom.scaleExtent(),
+                        translate = zoom.translate(),
+                        translate0 = [],
+                        l = [],
+                        view = {x: translate[0], y: translate[1], k: zoom.scale()};
+
+                    d3.event.preventDefault();
+                    direction = (this.id === 'zoom_in') ? 1 : -1;
+                    target_zoom = zoom.scale() * (1 + factor * direction);
+
+                    if (target_zoom < extent[0] || target_zoom > extent[1]) { return false; }
+
+                    translate0 = [(center[0] - view.x) / view.k, (center[1] - view.y) / view.k];
+                    view.k = target_zoom;
+                    l = [translate0[0] * view.k + view.x, translate0[1] * view.k + view.y];
+
+                    view.x += center[0] - l[0];
+                    view.y += center[1] - l[1];
+
+                    interpolateZoom([view.x, view.y], view.k);
+                } // END zoomClick
+
+                d3.selectAll('button').on('click', zoomClick);
+
+        } /*-- Rezise function End */
+        d3.select(window).on('resize', resizeResp);
+
+
+
+
+
+
+/* -----------  FORM - MAP  -----------   
+        $(document).ready(function(){
+
+          $("#inputBusquedaEdo").keyup(function(){
+
+              if ($("#inputBusquedaEdo").val() == "Chihuahua"){
+                 $("#container").css("background-color", "red");
+              } 
+              else {   
+                  $("#container").css("background-color", "white");
+              }
+          })
+
+        });
+
+
+
+ */   </script>
+
+
+    </body>
+</html>

@@ -1,0 +1,154 @@
+
+
+
+
+
+/* __________________________________________ PIE CHART */
+
+.arc text {
+  font-size: 14px;
+  text-anchor: middle;
+  color: black;
+}
+
+/* border del pie chart*/
+.arc path {
+  stroke: white;
+}
+
+
+
+
+
+
+
+
+.text-label{
+	font-family: arial;
+	font-size: 12px;
+	/*  text-anchor:end;
+	fill: white; */
+}
+
+
+.grids1 line {
+  stroke: lightgrey;
+  stroke-opacity: 0.7;
+  shape-rendering: crispEdges;
+}
+
+.grids1 path {
+  stroke-width: 0;
+}
+
+
+.svgg{
+	background-color: white;
+}
+
+
+
+
+/* ______________________________________________ Scatterplot TOOL-TIPS-DIV */
+ div.tooltip {   
+      position: absolute;           
+      text-align: center;           
+      width: 100px;                  
+      height: 35px;                 
+      padding: 3px;             
+      font-size:11px;
+    font-family: 'Noto Sans', sans-serif;
+    font-weight: 400px;
+      background: #008AB8;           
+      border: 0px;      
+      border-radius: 6px;           
+      pointer-events: none;
+      color: white;        
+    }
+
+
+
+
+
+
+
+
+
+/* _________________________________________________BarChart + Spider */
+
+  .link {
+    fill: none;
+    stroke: white;
+    stroke-width: 1px;
+  }
+
+  #licensing {
+    fill: green;
+  }
+
+  .link.licensing {
+    stroke: rgba(248,69,64,0.85);
+    stroke-width: 4px;
+  }
+
+  .link.resolved {
+    stroke-dasharray: 0,2 1;
+    stroke: white;
+    stroke-width: 5px;
+  }
+
+
+
+.link.circle.source.Mariana{
+  fill: green;
+  stroke: #666;
+  stroke-width: 1px;
+}
+
+circle {
+  fill: #ccc;
+  stroke: #30bef2;
+  stroke-width: 1.5px;
+}
+
+.svgg{
+  float: none;
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  background-color: transparent;
+}
+
+text {
+  font-size: 12px;
+  font-weight: 200;
+  font-family: 'Roboto', sans-serif;
+  pointer-events: none;
+  color: black;
+  fill: black;
+}
+
+
+
+
+
+
+
+
+/* _____________________________________________________________ AXIS  */
+
+/* Lineas de Axis de BarChart y LineChart */
+.axis path,
+				.axis line {
+					fill: none;
+					stroke: gray;
+					shape-rendering: crispEdges;
+					color: blue;
+				}
+
+
+
+
+
+
+

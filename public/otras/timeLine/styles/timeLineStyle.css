@@ -1,0 +1,1096 @@
+		body { overflow-x:hidden; }
+
+		@media screen and (min-width: 1367px) {
+			.upBox {
+				position: relative;
+				width: 100%;
+				height: auto;
+				margin-top: 50px;
+				margin-bottom: 50px;
+			}
+
+			.upBox > .col-md-6 >p{
+				position: relative;
+				width: 100%;
+				height: auto;
+				padding: 25px;
+				display: block;
+				float: none;
+				margin-left: auto;
+				margin-right: auto;
+			}
+			.upBox > img{
+				position: relative;
+				width: 90%;
+				height: auto;
+				padding: 20px;
+				display: block;
+				float: none;
+				margin-left: auto;
+				margin-right: auto;
+			}
+			.leftColumnFix{
+				position: relative;
+				width: calc((100%)/2);
+				height: 270px;
+				text-align: center;				
+				float: left;
+				left: 0px;
+				background: #adfaff; /* Old browsers */
+				background: -moz-linear-gradient(top, #adfaff 0%, #adfaff 13%, #adfaff 13%, #adfaff 29%, #adfaff 29%, #7db9e8 100%); /* FF3.6-15 */
+				background: -webkit-linear-gradient(top, #adfaff 0%,#adfaff 13%,#adfaff 13%,#adfaff 29%,#adfaff 29%,#7db9e8 100%); /* Chrome10-25,Safari5.1-6 */
+				background: linear-gradient(to bottom, #adfaff 0%,#adfaff 13%,#adfaff 13%,#adfaff 29%,#adfaff 29%,#7db9e8 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+				filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#adfaff', endColorstr='#7db9e8',GradientType=0 ); /* IE6-9 */
+				display: flex;
+				border-top:1px solid #233c7b;
+				border-bottom:1px solid #233c7b;
+				padding: 25px;
+
+				background-image: url(./img/bus.png);
+				background-repeat: no-repeat;
+				background-position: center;
+				background-size: 95%;
+			}
+
+			.lastBox{
+				position: relative;
+				width: 100%;
+				height: 250px;
+				background-image: url( https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAggAAAAJDBhYTgwNjMzLTlmNGYtNDA0MS1iMTc0LWJkMjI5M2FmZTllMQ.jpg);
+				background-repeat: no-repeat;
+				background-position: center;
+				background-size: 95%;
+			}
+			.rightColumFix{
+				position: relative;
+				width: calc((100%)/2);
+				height: 270px;
+				text-align: center;
+				/*border: 1px solid #c9c9c9; */
+				float: right;
+				right: 0px;
+				border-bottom:1px solid gray;
+			}
+			.xServices{
+				position: relative;
+				width: 100%;
+				height: auto;
+				background-image: url(http://westernacher-consulting.com/wp-content/uploads/2015/10/SAP-Business-Technology_Headerimage_RevolutionSlider1.png); 
+				background-repeat: no-repeat;
+				background-position: center;
+				background-size: 380%;
+				background-attachment: fixed;
+				border-top:4px solid gray;
+				display: -webkit-box;
+				display: -moz-box;
+				display: -ms-flexbox;
+				display: -webkit-flex;
+				display: flex;
+				-webkit-flex-flow: row wrap;
+				justify-content: center;
+			}
+			.servicesBox  {
+			  background: transparent;
+			  padding: 5px;
+			  width: 350px;
+			  position: relative;				
+			  height: 350px;
+			  margin-bottom: 25px;
+			  color: black;
+			  text-align: center;  
+			}
+			.xServices > div > img{
+				position: relative;
+				width: 50%;
+				height: auto;
+				display: block;
+				float: none;
+				margin-right: auto;
+				margin-left: auto;
+
+			}
+			.xServices > div > p{
+				position: relative;
+				width: 90%;
+				height: auto;
+				font-size: 18px;
+				color: black;
+				padding: 15px;
+				border:1px solid black;
+				display: block;
+				float: none;
+				margin-right: auto;
+				margin-left: auto;
+				text-align: center;
+			}
+			.xServices > h3{
+				position: relative;
+				width: 100%;
+				height: auto;
+				padding: 10px;
+				display: block;
+				float: none;
+				margin-left: auto;
+				margin-right: auto;
+				margin-top:35px;
+				margin-bottom:35px;
+				color: #149e94;
+				font-weight: bold;
+				text-align: center;
+				font-size: 26px;
+			}
+			.backBoxOp{
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				background-color: rgba(255,255,255,0.75);
+			}
+
+
+
+
+
+
+			.allStuff {
+				width:1360px;
+				display: block;
+				float: none;
+				margin-left: auto;
+				margin-right: auto;
+				border-top: 4px solid gray;
+			}
+			.aF{
+				position: relative;
+				width: 100%; 
+				height: 300px;
+				margin:auto;
+				background-image: url(https://t4.ftcdn.net/jpg/00/94/07/53/240_F_94075311_zPW9Sr9fAphkJMZoN9jkGnhWb5xbzI0p.jpg);
+				/*http://cozcyt.gob.mx/labsol/page/img/index/vector.png*/
+				background-size: 60%;
+				background-repeat: no-repeat;
+				background-position: center;
+				-webkit-filter: brightness(130%); /* Safari 6.0 - 9.0 */
+    			filter: brightness(130%);
+			}
+			.caaaremTiPart {
+				position: absolute;
+				width: 140px; 
+				height: 140px;
+				max-width: 140px;
+			  	min-width: 140px;
+			  	z-index: 10;
+			  	overflow: hidden;
+			  	margin: 0 auto;
+			  	left: 0;
+			  	right: 0;
+				background-image: url(../img/caaaremTiPart.jpg);
+				background-size: 60%;
+				background-repeat: no-repeat;
+				background-position: center;
+				border-radius: 100px;
+				border:1px solid black;
+				background-color: white;
+				top:80px;
+			}
+
+			.leftColumn{
+				position: relative;
+				width: calc((100%)/2.1);
+				height: 250px;
+				text-align: center;				
+				/* border: 1px solid purple; */
+				float: left;
+				left: 0px;
+				display: flex;
+			}
+			.rightColum{
+				position: relative;
+				width: calc((100%)/2.1);
+				height: 250px;
+				text-align: center;
+				/* border: 1px solid green; */
+				float: right;
+				right: 0px;
+				display: flex;
+			}
+			
+			.aFl{
+				position: relative;
+				width: 100%; 
+				height: auto; 
+				left: -700px;
+				margin:auto;
+				border-bottom:2px solid #233c7b;
+				overflow: hidden;
+			}
+			.aFr{
+				position: relative;
+				width: 100%; 
+				height: auto;
+				float: right;
+				right: -700px;
+				margin:auto;
+				border-bottom:2px solid #233c7b;
+				overflow: hidden;
+			}
+
+			.aFl > img{
+				margin-bottom: 15px;
+			}
+			.aFr > img{
+				margin-bottom: 15px;
+			}
+			.boxCircles{
+				width: 100%; 
+				height: 250px; 
+				background-color: transparent; 
+				/* border:1px solid gray; */
+			}
+			.rowOne {
+				position: relative;
+				width: 100%;
+				height: 250px;
+				/* border:1px dotted red;  */
+			}
+
+			.circleBox{
+				position: relative;
+				width: 100px;
+				height: 100px;
+				background-color: blue;
+			}
+			.centralLine {
+				position: absolute;
+				width: 4px;
+				max-width: 4px;
+			  	min-width: 4px;
+				height: 3300px;
+				background-color: #233c7b;
+				position: absolute;
+			  	z-index: 10;
+			  	overflow: hidden;
+			  	margin: 0 auto;
+			  	left: 0;
+			  	right: 0;
+			}
+			.imgIntro {
+				position: absolute;
+				width: 100%;
+				height: 400px;
+				background-image: url(./img/bus.png);
+				background-repeat: no-repeat;
+				background-position: center;
+				background-size: 105%;
+				top:-267px;
+			}
+			h1{
+				color:white;
+				font-size: 106px;
+			}
+			h2{
+				color:white;
+				font-size: 18px;
+			}
+			.timeLineFooter {
+				position: relative;
+				width: 100%;
+				height: 300px;
+				border-top:4px solid #233c7b;
+			}
+			h3{
+				position: relative;
+				width: 100%;
+				height: auto;
+				padding: 10px;
+				display: block;
+				float: none;
+				margin-left: auto;
+				margin-right: auto;
+				margin-top:35px;
+				margin-bottom:35px;
+				color: #149e94;
+				text-align: center;
+				font-weight: bold;
+				font-size: 26px;
+			}
+
+			.bounceIn {
+			  animation-name: bounceIn;
+			  display: block;
+			  position: absolute;
+			  width: 70px;
+			  height: 70px;
+			  padding: 5px;
+			  border-radius: 50px;
+			  border: 4px solid #233c7b;
+			  background-image: url(../img/logobn.jpg);
+			  background-repeat: no-repeat;
+			  background-position: center;
+			  background-size: 80%;
+			  background-color: white;
+			  overflow: hidden;
+			  margin: 0 auto;
+			  left: 0;
+			  right: 0;
+			  z-index:20;
+			}
+			@keyframes bounceIn {
+			  from, 20%, 40%, 60%, 80%, to {
+			    animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+			  }
+
+			  0% {
+			    opacity: 0;
+			    transform: scale3d(.3, .3, .3);
+			  }
+
+			  20% {
+			    transform: scale3d(1.1, 1.1, 1.1);
+			  }
+
+			  40% {
+			    transform: scale3d(.9, .9, .9);
+			  }
+
+			  60% {
+			    opacity: 1;
+			    transform: scale3d(1.03, 1.03, 1.03);
+			  }
+
+			  80% {
+			    transform: scale3d(.97, .97, .97);
+			  }
+
+			  to {
+			    opacity: 1;
+			    transform: scale3d(1, 1, 1);
+			  }
+			}
+		}
+
+		@media screen and (min-width: 769px) and (max-width: 1366px){
+			.upBox {
+				position: relative;
+				width: 100%;
+				height: auto;
+				margin-top: 50px;
+				margin-bottom: 50px;
+			}
+
+			.upBox > .col-md-6 >p{
+				position: relative;
+				width: 100%;
+				height: auto;
+				padding: 25px;
+				display: block;
+				float: none;
+				margin-left: auto;
+				margin-right: auto;
+			}
+			.upBox > img{
+				position: relative;
+				width: 90%;
+				height: auto;
+				padding: 20px;
+				display: block;
+				float: none;
+				margin-left: auto;
+				margin-right: auto;
+			}
+			.leftColumnFix{
+				position: relative;
+				width: calc((100%)/2);
+				height: 270px;
+				text-align: center;				
+				float: left;
+				left: 0px;
+				background: #adfaff; /* Old browsers */
+				background: -moz-linear-gradient(top, #adfaff 0%, #adfaff 13%, #adfaff 13%, #adfaff 29%, #adfaff 29%, #7db9e8 100%); /* FF3.6-15 */
+				background: -webkit-linear-gradient(top, #adfaff 0%,#adfaff 13%,#adfaff 13%,#adfaff 29%,#adfaff 29%,#7db9e8 100%); /* Chrome10-25,Safari5.1-6 */
+				background: linear-gradient(to bottom, #adfaff 0%,#adfaff 13%,#adfaff 13%,#adfaff 29%,#adfaff 29%,#7db9e8 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+				filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#adfaff', endColorstr='#7db9e8',GradientType=0 ); /* IE6-9 */
+				display: flex;
+				border-top:1px solid #233c7b;
+				border-bottom:1px solid #233c7b;
+				padding: 25px;
+
+				background-image: url(./img/bus.png);
+				background-repeat: no-repeat;
+				background-position: center;
+				background-size: 95%;
+			}
+
+			.lastBox{
+				position: relative;
+				width: 100%;
+				height: 250px;
+				background-image: url( https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAggAAAAJDBhYTgwNjMzLTlmNGYtNDA0MS1iMTc0LWJkMjI5M2FmZTllMQ.jpg);
+				background-repeat: no-repeat;
+				background-position: center;
+				background-size: 95%;
+			}
+			.rightColumFix{
+				position: relative;
+				width: calc((100%)/2);
+				height: 270px;
+				text-align: center;
+				/*border: 1px solid #c9c9c9; */
+				float: right;
+				right: 0px;
+				border-bottom:1px solid gray;
+			}
+			.xServices{
+				position: relative;
+				width: 100%;
+				height: auto;
+				background-image: url(http://westernacher-consulting.com/wp-content/uploads/2015/10/SAP-Business-Technology_Headerimage_RevolutionSlider1.png); 
+				background-repeat: no-repeat;
+				background-position: center;
+				background-size: 380%;
+				background-attachment: fixed;
+				border-top:4px solid gray;
+				display: -webkit-box;
+				display: -moz-box;
+				display: -ms-flexbox;
+				display: -webkit-flex;
+				display: flex;
+				-webkit-flex-flow: row wrap;
+				justify-content: center;
+			}
+			.servicesBox  {
+			  background: transparent;
+			  padding: 5px;
+			  width: 350px;
+			  position: relative;				
+			  height: 350px;
+			  margin-top: 55px;
+			  margin-bottom: 55px;
+			  color: black;
+			  text-align: center;  
+			}
+			.xServices > div > img{
+				position: relative;
+				width: 50%;
+				height: auto;
+				display: block;
+				float: none;
+				margin-right: auto;
+				margin-left: auto;
+
+			}
+			.xServices > div > p{
+				position: relative;
+				width: 90%;
+				height: auto;
+				font-size: 18px;
+				color: black;
+				padding: 15px;
+				border:1px solid black;
+				display: block;
+				float: none;
+				margin-right: auto;
+				margin-left: auto;
+				text-align: center;
+			}
+			.xServices > h3{
+				position: relative;
+				width: 100%;
+				height: auto;
+				padding: 10px;
+				display: block;
+				float: none;
+				margin-left: auto;
+				margin-right: auto;
+				margin-top:35px;
+				margin-bottom:35px;
+				color: #149e94;
+				font-weight: bold;
+				text-align: center;
+				font-size: 26px;
+			}
+			.backBoxOp{
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				background-color: rgba(255,255,255,0.75);
+			}
+
+
+
+
+
+
+			.allStuff {
+				width:100%;
+				border-top: 4px solid gray;
+			}
+			.aF{
+				position: relative;
+				width: 100%; 
+				height: 300px;
+				margin:auto;
+				background-image: url(https://t4.ftcdn.net/jpg/00/94/07/53/240_F_94075311_zPW9Sr9fAphkJMZoN9jkGnhWb5xbzI0p.jpg);
+				/*http://cozcyt.gob.mx/labsol/page/img/index/vector.png*/
+				background-size: 60%;
+				background-repeat: no-repeat;
+				background-position: center;
+				-webkit-filter: brightness(130%); /* Safari 6.0 - 9.0 */
+    			filter: brightness(130%);
+			}
+			.caaaremTiPart {
+				position: absolute;
+				width: 140px; 
+				height: 140px;
+				max-width: 140px;
+			  	min-width: 140px;
+			  	z-index: 10;
+			  	overflow: hidden;
+			  	margin: 0 auto;
+			  	left: 0;
+			  	right: 0;
+				background-image: url(../img/caaaremTiPart.jpg);
+				background-size: 60%;
+				background-repeat: no-repeat;
+				background-position: center;
+				border-radius: 100px;
+				border:1px solid black;
+				background-color: white;
+				top:80px;
+			}
+
+			.leftColumn{
+				position: relative;
+				width: calc((100%)/2.1);
+				height: 250px;
+				text-align: center;				
+				/* border: 1px solid purple; */
+				float: left;
+				left: 0px;
+				display: flex;
+			}
+			.rightColum{
+				position: relative;
+				width: calc((100%)/2.1);
+				height: 250px;
+				text-align: center;
+				/* border: 1px solid green; */
+				float: right;
+				right: 0px;
+				display: flex;
+			}
+			
+			.aFl{
+				position: relative;
+				width: 100%; 
+				height: auto; 
+				left: -700px;
+				margin:auto;
+				border-bottom:2px solid #233c7b;
+				overflow: hidden;
+			}
+			.aFr{
+				position: relative;
+				width: 100%; 
+				height: auto;
+				float: right;
+				right: -700px;
+				margin:auto;
+				border-bottom:2px solid #233c7b;
+				overflow: hidden;
+			}
+
+			.aFl > img{
+				margin-bottom: 15px;
+			}
+			.aFr > img{
+				margin-bottom: 15px;
+			}
+			.boxCircles{
+				width: 100%; 
+				height: 250px; 
+				background-color: transparent; 
+				/* border:1px solid gray; */
+			}
+			.rowOne {
+				position: relative;
+				width: 100%;
+				height: 250px;
+				/* border:1px dotted red;  */
+			}
+
+			.circleBox{
+				position: relative;
+				width: 100px;
+				height: 100px;
+				background-color: blue;
+			}
+			.centralLine {
+				position: absolute;
+				width: 4px;
+				max-width: 4px;
+			  	min-width: 4px;
+				height: 3300px;
+				background-color: #233c7b;
+				position: absolute;
+			  	z-index: 10;
+			  	overflow: hidden;
+			  	margin: 0 auto;
+			  	left: 0;
+			  	right: 0;
+			}
+			.imgIntro {
+				position: absolute;
+				width: 100%;
+				height: 400px;
+				background-image: url(./img/bus.png);
+				background-repeat: no-repeat;
+				background-position: center;
+				background-size: 105%;
+				top:-267px;
+			}
+			h1{
+				color:white;
+				font-size: 106px;
+			}
+			h2{
+				color:white;
+				font-size: 18px;
+			}
+			.timeLineFooter {
+				position: relative;
+				width: 100%;
+				height: 300px;
+				border-top:4px solid #233c7b;
+			}
+			h3{
+				position: relative;
+				width: 100%;
+				height: auto;
+				padding: 10px;
+				display: block;
+				float: none;
+				margin-left: auto;
+				margin-right: auto;
+				margin-top:35px;
+				margin-bottom:35px;
+				color: #149e94;
+				text-align: center;
+				font-weight: bold;
+				font-size: 26px;
+			}
+
+			.bounceIn {
+			  animation-name: bounceIn;
+			  display: block;
+			  position: absolute;
+			  width: 70px;
+			  height: 70px;
+			  padding: 5px;
+			  border-radius: 50px;
+			  border: 4px solid #233c7b;
+			  background-image: url(../img/logobn.jpg);
+			  background-repeat: no-repeat;
+			  background-position: center;
+			  background-size: 80%;
+			  background-color: white;
+			  overflow: hidden;
+			  margin: 0 auto;
+			  left: 0;
+			  right: 0;
+			  z-index:20;
+			}
+			@keyframes bounceIn {
+			  from, 20%, 40%, 60%, 80%, to {
+			    animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+			  }
+
+			  0% {
+			    opacity: 0;
+			    transform: scale3d(.3, .3, .3);
+			  }
+
+			  20% {
+			    transform: scale3d(1.1, 1.1, 1.1);
+			  }
+
+			  40% {
+			    transform: scale3d(.9, .9, .9);
+			  }
+
+			  60% {
+			    opacity: 1;
+			    transform: scale3d(1.03, 1.03, 1.03);
+			  }
+
+			  80% {
+			    transform: scale3d(.97, .97, .97);
+			  }
+
+			  to {
+			    opacity: 1;
+			    transform: scale3d(1, 1, 1);
+			  }
+			}
+}
+
+
+
+
+
+
+
+
+
+@media screen and (max-width: 768px) {
+		    .upBox{
+		    	text-align: center;
+		    }
+			.upBox {
+				position: relative;
+				width: 100%;
+				height: auto;
+				margin-top: 50px;
+				margin-bottom: 50px;
+			}
+			.upBox > .col-md-6 >p{
+				position: relative;
+				width: 100%;
+				height: auto;
+				padding: 25px;
+				display: block;
+				float: none;
+				margin-left: auto;
+				margin-right: auto;
+			}
+			.upBox > img{
+				position: relative;
+				width: 90%;
+				height: auto;
+				padding: 20px;
+				display: block;
+				float: none;
+				margin-left: auto;
+				margin-right: auto;
+			}
+			.leftColumnFix{
+				position: relative;
+				width: calc((100%)/2);
+				height: 270px;
+				text-align: center;				
+				float: left;
+				left: 0px;
+				background: #adfaff; /* Old browsers */
+				background: -moz-linear-gradient(top, #adfaff 0%, #adfaff 13%, #adfaff 13%, #adfaff 29%, #adfaff 29%, #7db9e8 100%); /* FF3.6-15 */
+				background: -webkit-linear-gradient(top, #adfaff 0%,#adfaff 13%,#adfaff 13%,#adfaff 29%,#adfaff 29%,#7db9e8 100%); /* Chrome10-25,Safari5.1-6 */
+				background: linear-gradient(to bottom, #adfaff 0%,#adfaff 13%,#adfaff 13%,#adfaff 29%,#adfaff 29%,#7db9e8 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+				filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#adfaff', endColorstr='#7db9e8',GradientType=0 ); /* IE6-9 */
+				display: flex;
+				border-top:1px solid #233c7b;
+				border-bottom:1px solid #233c7b;
+				padding: 25px;
+
+				background-image: url(./img/bus.png);
+				background-repeat: no-repeat;
+				background-position: center;
+				background-size: 95%;
+			}
+
+			.lastBox{
+				position: relative;
+				width: 100%;
+				height: 250px;
+				background-image: url( https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAggAAAAJDBhYTgwNjMzLTlmNGYtNDA0MS1iMTc0LWJkMjI5M2FmZTllMQ.jpg);
+				background-repeat: no-repeat;
+				background-position: center;
+				background-size: 95%;
+			}
+			.rightColumFix{
+				position: relative;
+				width: calc((100%)/2);
+				height: 270px;
+				text-align: center;
+				/*border: 1px solid #c9c9c9; */
+				float: right;
+				right: 0px;
+				border-bottom:1px solid gray;
+			}
+			.leftColumn{
+				margin-top: 50px;
+				margin-bottom: 50px;
+			}
+			.rightColum{
+				margin-top: 50px;
+				margin-bottom: 50px;
+			}
+			.xServices{
+				position: relative;
+				width: 100%;
+				height: auto;
+				background-color: white
+				border-top:4px solid gray;
+				display: -webkit-box;
+				  display: -moz-box;
+				  display: -ms-flexbox;
+				  display: -webkit-flex;
+				  display: flex;
+				  -webkit-flex-flow: row wrap;
+				  justify-content: center;
+			}
+			.servicesBox  {
+			  background: transparent;
+			  padding: 5px;
+			  width: 350px;
+			 position: relative;				
+			 height: 450px;
+			  margin-bottom: 25px;
+			  color: black;
+			  text-align: center;  
+			}
+			.xServices > div > img{
+				position: relative;
+				width: 50%;
+				height: auto;
+				display: block;
+				float: none;
+				margin-right: auto;
+				margin-left: auto;
+
+			}
+			.xServices > div > p{
+				position: relative;
+				width: 90%;
+				height: auto;
+				font-size: 18px;
+				color: black;
+				padding: 15px;
+				border:1px solid black;
+				display: block;
+				float: none;
+				margin-right: auto;
+				margin-left: auto;
+				text-align: center;
+			}
+			.xServices > h3{
+				position: relative;
+				width: 100%;
+				height: auto;
+				padding: 10px;
+				display: block;
+				float: none;
+				margin-left: auto;
+				margin-right: auto;
+				margin-top:35px;
+				margin-bottom:35px;
+				color: #149e94;
+				font-weight: bold;
+				text-align: center;
+				font-size: 26px;
+			}
+			.backBoxOp{
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				background-color: rgba(255,255,255,0.75);
+			}
+
+
+
+
+
+
+			.allStuff {
+				border-top: 4px solid gray;
+				text-align: center;
+			}
+			.aF{
+				position: relative;
+				width: 100%; 
+				height: 300px;
+				margin:auto;
+				background-image: url(https://t4.ftcdn.net/jpg/00/94/07/53/240_F_94075311_zPW9Sr9fAphkJMZoN9jkGnhWb5xbzI0p.jpg);
+				/*http://cozcyt.gob.mx/labsol/page/img/index/vector.png*/
+				background-size: 60%;
+				background-repeat: no-repeat;
+				background-position: center;
+				-webkit-filter: brightness(130%); /* Safari 6.0 - 9.0 */
+    			filter: brightness(130%);
+			}
+			.caaaremTiPart {
+				position: absolute;
+				width: 140px; 
+				height: 140px;
+				max-width: 140px;
+			  	min-width: 140px;
+			  	z-index: 100;
+			  	overflow: hidden;
+			  	margin: 0 auto;
+			  	left: 0;
+			  	right: 0;
+				background-image: url(../img/caaaremTiPart.jpg);
+				background-size: 60%;
+				background-repeat: no-repeat;
+				background-position: center;
+				border-radius: 100px;
+				border:1px solid black;
+				background-color: white;
+				top:80px;
+			}
+
+		
+			.boxCircles{
+				width: 100%; 
+				height: 250px; 
+				background-color: transparent; 
+				/* border:1px solid gray; */
+			}
+			.rowOne {
+				position: relative;
+				width: 100%;
+				height: 400px;
+				/* border:1px dotted red;  */
+			}
+
+			.circleBox{
+				position: relative;
+				width: 100px;
+				height: 100px;
+				background-color: blue;
+			}
+			.centralLine {
+				position: absolute;
+				width: 4px;
+				max-width: 4px;
+			  	min-width: 4px;
+				height: 5000px;
+				background-color: #233c7b;
+			  	z-index: 10;
+			  	float: left;
+			  	left: 25px;
+			}
+			.imgIntro {
+				position: absolute;
+				width: 100%;
+				height: 400px;
+				background-image: url(./img/bus.png);
+				background-repeat: no-repeat;
+				background-position: center;
+				background-size: 105%;
+				top:-267px;
+			}
+			h1{
+				color:white;
+				font-size: 106px;
+			}
+			h2{
+				color:white;
+				font-size: 18px;
+			}
+			.timeLineFooter {
+				position: relative;
+				width: 100%;
+				height: 300px;
+				border-top:4px solid #233c7b;
+			}
+			h3{
+				position: relative;
+				width: 100%;
+				height: auto;
+				padding: 10px;
+				display: block;
+				float: none;
+				margin-left: auto;
+				margin-right: auto;
+				margin-top:35px;
+				margin-bottom:35px;
+				color: #149e94;
+				text-align: center;
+				font-weight: bold;
+				font-size: 26px;
+			}
+
+			.aFl > img{
+				position: relative;
+				width: 250px;
+				height: auto;
+				display: block;
+				float: none;
+				margin-left: auto;
+				margin-right: auto;
+				margin-bottom: 15px;
+			}
+			.aFr > img{
+				position: relative;
+				width: 250px;
+				height: auto;
+				display: block;
+				float: none;
+				margin-left: auto;
+				margin-right: auto;
+				margin-bottom: 15px;
+			}
+
+			.aFl > p{
+				padding:10px;
+			}
+			.aFr > p{
+				padding:10px;
+			}
+
+			.aFl{
+				position: relative;
+				width: 80%; 
+				height: auto; 
+				margin-bottom:20px;
+				border-bottom:2px solid #233c7b;
+				float: right;
+				right: 5px;
+			}
+			.aFr{
+				position: relative;
+				width: 80%; 
+				height: auto; 
+				margin-bottom:20px;
+				border-bottom:2px solid #233c7b;
+				float: right;
+				right: 5px;
+			}
+
+			.animated{
+			  display: block;
+			  position: relative;
+			  width: 40px;
+			  height: 40px;
+			  padding: 5px;
+			  border-radius: 50px;
+			  border: 4px solid #233c7b;
+			  background-image: url(../img/logobn.jpg);
+			  background-repeat: no-repeat;
+			  background-position: center;
+			  background-size: 80%;
+			  background-color: white;
+			  z-index:50;
+			  top:-3px;
+			  left:8px;
+			}
+			.bounceIn {
+			  display: block;
+			  position: relative;
+			  width: 50px;
+			  height: 50px;
+			  padding: 5px;
+			  border-radius: 50px;
+			  border: 4px solid #233c7b;
+			  background-image: url(../img/logobn.jpg);
+			  background-repeat: no-repeat;
+			  background-position: center;
+			  background-size: 80%;
+			  background-color: white;
+			  z-index:50;
+			  top:40px;
+			  left:0px;
+			}
+
+}
+
+	/* IMAGES */
+			

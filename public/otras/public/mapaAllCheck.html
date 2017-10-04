@@ -1,0 +1,826 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="Data visualization-responsive"/>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+
+      <title> MAPA </title>
+      
+      <!-- Bootsrtap -->
+      <link rel="stylesheet" href="stylesheets/bootstrap.min.css">
+
+      <!-- d3 -->
+      <script src="javascripts/d3/d3.min.js" ></script>
+      <script src="javascripts/d3/topojson.v2.min.js"></script>
+      <script src="javascripts/jquery.min.js"></script>
+</head>
+
+
+
+
+<body>
+
+    <style>
+      .todoBox {
+        padding: 25px;
+      }
+
+        path {
+            stroke: #ededed;
+            stroke-width: 2px;
+        }
+
+
+      .btn{
+        background-color: #0993e2;
+        font-size: 18px;
+        font-weight: bold;
+        color: white;
+      }
+
+      #btnInfo{
+        position: relative;
+        width: 100px;
+        height: auto;
+        background-color:#c9c9c9;
+        display: flex;
+        padding: 5px;
+        margin: 0px;
+      }
+
+      .zoomP {
+        position: relative;
+        width: 100px;
+        height: 30px;
+        font-size: 24px;
+        color: #0993e2;
+        padding: 5px;
+        margin: 0px;
+      }
+
+      #btnInfo button{
+        position: relative;
+        width: 400px;
+        height: 40px;
+        margin: auto;
+        background-color: #0993e2;
+        color: white;
+        font-weight: bold;
+        font-size: 24px;
+      }
+
+      #container{
+        position: relative;
+        width: 100%;
+        height: auto;
+        border:1px solid orange;
+      }
+
+      #searchPop{
+        position: absolute;
+        max-width: 360px;
+        min-width: 350px;
+        overflow: hidden;
+        margin: 0 auto;
+        left: 0;
+        right: 0;
+        height: 100%;
+        background-color:rgba(255,255,255,0.8);
+        top:0px;
+        z-index: 1000;
+        display: none;
+        text-align:center;
+        -moz-box-shadow: 0 0 10px rgba(0,0,0,.18); /* drop shadow */
+        -webkit-box-shadow: 0 0 10px rgba(0,0,0,.18); /* drop shadow */
+        -o-box-shadow: 0 0 10px rgba(0,0,0,.18); /* drop shadow */
+        box-shadow: 0 0 10px rgba(0,0,0,.18); /* drop shadow */
+        -webkit-transform-origin:top center;
+        -moz-transform-origin:top center;
+        -o-transform-origin:top center;
+        transform-origin:top center;
+        -webkit-animation: iconosani 1.2s forwards;
+        animation: iconosani 1.2s forwards;
+        -moz-animation: iconosani 1.2s forwards;
+        -o-animation: iconosani 1.2s forwards;
+      }
+
+
+          @-webkit-keyframes iconosani {
+              0% {
+                  -webkit-transform: perspective(800px) rotateX(-90deg);
+                  -moz-transform: perspective(800px) rotateX(-90deg);
+                  -o-transform: perspective(800px) rotateX(-90deg);
+                  opacity: 1;
+              } 
+              40% {
+                  -webkit-transform: perspective(800px) rotateX(30deg);
+                  -moz-transform: perspective(800px) rotateX(30deg);
+                  -o-transform: perspective(800px) rotateX(30deg);
+                  opacity: 1;
+              }
+              70% {
+                  -webkit-transform: perspective(800px) rotateX(-10deg);
+                  -moz-transform: perspective(800px) rotateX(-10deg);
+                  -o-transform: perspective(800px) rotateX(-10deg);
+              }
+              100% {
+                  -webkit-transform: perspective(800px) rotateX(0deg);
+                  -moz-transform: perspective(800px) rotateX(0deg);
+                  -o-transform: perspective(800px) rotateX(0deg);
+                  opacity: 1;
+              }
+          }
+
+
+
+      #searchPop p{
+        position: relative;
+        width:300px;
+        height: auto;
+        margin: auto;
+        font-size: 24px;
+        font-weight: bold;
+        color: black;
+        text-align: center;
+      }
+
+/*
+      #searchPop p img{
+        -webkit-filter: grayscale(100%) brightness(250%) contrast(100%) saturate(750%);
+      }
+*/
+
+      #searchPop p span:nth-child(4) {
+          background: #0993e2;
+          padding: 4px;
+          font-size: 18px;
+      }
+
+
+      .background {
+        fill: none;
+        pointer-events: all;
+      }
+
+      #states {
+        fill: #aaa;
+      }
+
+      #states .active {
+        fill: #7fd1ca;
+      }
+
+      #state-borders {
+        fill: none;
+        stroke: #fff;
+        stroke-width: 1.5px;
+        stroke-linejoin: round;
+        stroke-linecap: round;
+        pointer-events: none;
+      }
+
+    div.tooltip {
+      position: absolute;
+      width: 280px;
+      height: 210px;
+      padding: 4px;
+      font: 11px sans-serif;
+      background: orange;
+      border: 0px;
+      border-radius: 2px;
+      pointer-events: none;
+      color: white;
+   }
+   div.tooltipAAA {
+      position: absolute;
+      width: 280px;
+      height: auto;
+      padding: 4px;
+      font: 11px sans-serif;
+      background: green;
+      border: 0px;
+      border-radius: 2px;
+      pointer-events: none;
+      color: white;
+   }
+   h1{
+    position: relative;
+    width: auto;
+    height: 20px;
+    padding: 2px;
+    margin:0px;
+   }
+   .fa.fa-plane{
+    font-size: 24px;
+    padding: 2px;
+   }
+  .l1, .l2, .l3, .l4{
+    position: relative;
+    float: none;
+    padding: 5px;
+    width: 25px;
+    height: 25px;
+    background-color: white;
+  }
+
+
+    </style>
+
+
+
+
+
+
+
+
+
+
+
+    <div class=" todoBox row">
+        <div class="col-md-3">
+            <p class="zoomP">Zoom</p><br>
+            <div id="btnInfo">
+              <!--<button id="zoom_in">+</button><button id="zoom_out">-</button>-->
+              <img src="http://www.clker.com/cliparts/C/a/r/W/j/3/computer-mouse-with-wheel.svg" width="100px" height="50px">
+            </div>
+
+            <br><br><br>
+
+            <label>Estado:</label><br>
+            <input type="text" name="textInput" placeholder="Escribe Algo" id="inputTxtId" />
+              
+            <br><br><br>
+
+            <label>Asosiación:</label><br>
+            <select id="selecIdAs">
+              <option value="As 1">Asosiación 1</option>
+              <option value="As 2">Asosiación 2</option>
+              <option value="As 3">Asosiación 3</option>
+            </select>
+
+            <br><br><br>
+
+            <label>Tipo de Aduana:</label><br>
+            <input id="Aereo" type="checkbox" name="fooby[1][]" value="Aereo" />Aéreo<br />
+            <input id="Maritimo" type="checkbox" name="fooby[1][]" value="Maritimo" />Marítimo<br />
+            <input id="Terrestre" type="checkbox" name="fooby[1][]" value="Terrestre" />Terrestre<br />
+            <input id="Ferroviario" type="checkbox" name="fooby[1][]" value="Ferroviario" />Ferroviario<br /><br />
+            <button id="target" class="btn">Buscar</button>
+        </div>
+
+
+        <div id="mapaBox" class="col-md-9">
+          <div id="searchPop">
+            <p>
+              <img width="250" src="https://gifimage.net/wp-content/uploads/2017/06/gif-search-18.gif" alt="Error Search"> <br>
+              <span>No existen resultados para la búsqueda actual</span>
+              <span>Por favor, vuelva a filtrar</span>
+            </p>
+          </div>
+          <div id="container"></div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+  <script>
+
+        $("input:checkbox").on('click', function() {
+          var $box = $(this);
+          if ($box.is(":checked")) {
+            var group = "input:checkbox[name='" + $box.attr("name") + "']";
+            $(group).prop("checked", false);
+            $box.prop("checked", true);
+          } else {
+            $box.prop("checked", false);
+          }
+        });
+
+        var margin = { top: 10, right: 10, bottom: 10, left: 10 },
+                width = parseInt(d3.select("#container").style('width'), 10),
+                width = width - margin.left - margin.right,
+                ratio = .5,
+                height = width * ratio+10,
+                centered,
+                zoom = d3.behavior.zoom();
+
+        var projection = d3.geo.mercator()
+                    .center([-100, 22])
+                    .translate([ width/1.7, height/1.7])
+                    .scale([ width/.7 ]);
+
+        var path = d3.geo.path()
+            .projection(projection);
+
+
+        //svg
+        var svg = d3.select("#container").append("svg")
+              .attr("width", width)
+              .attr("height", height)
+              .call(d3.behavior.zoom().on("zoom", function () {
+                        svg.attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")")
+                      })
+                    )
+              .append("g");
+
+        var popUp = d3.select("#searchPop");
+
+
+
+        d3.json("mexico.json", function(json) {
+
+          var div = d3.select("body").append("div")
+                        .attr("class", "tooltip")
+                        .style("opacity", 0);
+          var div2 = d3.select("body").append("div")
+                        .attr("class", "tooltipAAA")
+                        .style("opacity", 0);
+
+              svg.append("g")
+                  .attr("id", "states")
+                .selectAll("path")
+                  .data(json.features)
+                .enter().append("path")
+                  .attr("d", path)
+                  .attr("fill", "#bae6ef")
+                      .append("title");
+
+
+
+            // CSV PROCESS
+              d3.csv("aduanasDatosMSDOS.csv", function(data) {
+                          svg.selectAll("circle")
+                              .data(data)
+                              .enter()
+                              .append("circle")
+                              .attr("cx", function(d) {
+                                    return projection([d.lon, d.lat])[0];
+                              })
+                              .attr("cy", function(d) {
+                                    return projection([d.lon, d.lat])[1];
+                              })
+                              .attr("r", function(d) {
+                                return Math.sqrt(d.radio) * 3;
+                              })
+                              .style("fill", "red")
+                              .on("mouseover", function(d) {      
+                                  div.transition()        
+                                    .duration(200)      
+                                    .style("opacity", .9);
+                                
+                                  div.html('<h3>Aduana de: '+d.id +'</h3>' + '<p> Dirección:  '+d.Direccion+'</p>' + '<p><span>Tráfico:  </span>'+'<img class="l1"' + 'src="' +d.l1+ '">'  +'<img class="l2"' + 'src="' +d.l2+ '">' + '<img class="l3"' + 'src="' +d.l3+ '">' + '<img class="l4"' + 'src="' +d.l4+ '">' + '</p>'
+                                  )
+                                  .style("left", (d3.event.pageX) + "px")     
+                                  .style("top", (d3.event.pageY - 28) + "px");
+
+                                  div2.transition()        
+                                    .duration(200)      
+                                    .style("opacity", .9);
+                                
+                                  div2.html('<h5>'+d.AAA_Nombre +'</h5>' +'<p> Dirección: '+ d.AAA_Direccion +'</p>' + '<p> Teléfono: <b>'+ d.AAA_Telefono +'</b></p>' + '<p>E-mail:  '+ d.AAA_Email +'</p>'
+                                  )
+                                  .style("left", (d3.event.pageX) + "px")     
+                                  .style("top", (d3.event.pageY + 180) + "px");
+
+                                  if(d.l1 === "No"){
+                                    $(".l1").css("display", "none")
+                                  }
+                                  if(d.l2 === "No"){
+                                    $(".l2").css("display", "none")
+                                  }
+                                  if(d.l3 === "No"){
+                                    $(".l3").css("display", "none")
+                                  }
+                                  if(d.l4 === "No"){
+                                    $(".l4").css("display", "none")
+                                  }
+
+                              })               
+                              .on("mouseout", function(d) {       
+                                  div.transition()        
+                                     .duration(500)      
+                                     .style("opacity", 0);
+                                  div2.transition()        
+                                     .duration(500)      
+                                     .style("opacity", 0); 
+                              });
+
+
+
+
+
+   
+                    $( "#target" ).click(function() {
+
+                        var blaCheck = $('#inputTxtId').val();
+                        var selectValueAs = d3.select('#selecIdAs').property('value');
+
+                        var aereoCheckboxSelected = d3.select("#Aereo").property("checked");
+                        var maritimoCheckboxSelected = d3.select("#Maritimo").property("checked");
+                        var terrestreCheckboxSelected = d3.select("#Terrestre").property("checked");
+                        var ferroCheckboxSelected = d3.select("#Ferroviario").property("checked");
+
+                        if(aereoCheckboxSelected){
+
+                           svg.selectAll("circle")
+                              .data(data)
+                              .attr("cx", function(d) {
+                                if(d.Tipo === "Aereo" && blaCheck === "Todos" && selectValueAs === d.Asociacion){
+                                    return projection([d.lon, d.lat])[0];
+                                }
+                                else if(d.Tipo === "Aereo" && blaCheck === d.Estado && selectValueAs === d.Asociacion){
+                                    return projection([d.lon, d.lat])[0];
+                                }
+                                else{
+                                  return projection([0,0])[0];  
+                                }   
+                              })
+                              .attr("cy", function(d) {
+                                if(d.Tipo === "Aereo" && blaCheck === "Todos" && selectValueAs === d.Asociacion){
+                                    return projection([d.lon, d.lat])[1]; 
+                                }
+                                else if(d.Tipo === "Areo" && blaCheck === d.Estado  && selectValueAs === d.Asociacion){
+                                    return projection([d.lon, d.lat])[1];
+                                }
+                                else{
+                                  return projection([0,0])[0];  
+                                }
+                              });
+                        }
+                        else if(maritimoCheckboxSelected){
+                           svg.selectAll("circle")
+                              .data(data)
+                              .attr("cx", function(d) {
+                                if(d.Tipo2 === "Maritimo" && blaCheck === "Todos" && selectValueAs === d.Asociacion){
+                                    return projection([d.lon, d.lat])[0]; 
+                                }
+                                else if(d.Tipo2 === "Maritimo" && blaCheck === d.Estado && selectValueAs === d.Asociacion){
+                                    return projection([d.lon, d.lat])[0];
+                                    console.log("Tooodos cx") 
+                                }
+                                else{
+                                   return projection([0,0])[0];
+                                }   
+                              })
+                              .attr("cy", function(d) {
+                                if(d.Tipo2 === "Maritimo" && blaCheck === "Todos" && selectValueAs === d.Asociacion){
+                                    return projection([d.lon, d.lat])[1]; 
+                                }
+                                else if(d.Tipo2 === "Maritimo" && blaCheck === d.Estado && selectValueAs === d.Asociacion){
+                                    return projection([d.lon, d.lat])[1];
+                                }
+                                else{
+                                   return projection([0,0])[0];  
+                                }
+                              });  
+                        }
+                        else if(terrestreCheckboxSelected){
+                          svg.selectAll("circle")
+                              .data(data)
+                              .attr("cx", function(d) {
+                                if(d.Tipo3 === "Terrestre" && blaCheck === "Todos" && selectValueAs === d.Asociacion){
+                                    return projection([d.lon, d.lat])[0]; 
+                                }
+                                else if(d.Tipo3 === "Terrestre" && blaCheck === d.Estado && selectValueAs === d.Asociacion){
+                                    return projection([d.lon, d.lat])[0];
+                                    console.log("Tooodos cx") 
+                                }
+                                else{
+                                   return projection([0,0])[0];  
+                                }   
+                              })
+                              .attr("cy", function(d) {
+                                if(d.Tipo3 === "Terrestre" && blaCheck === "Todos" && selectValueAs === d.Asociacion){
+                                    return projection([d.lon, d.lat])[1]; 
+                                }
+                                if(d.Tipo3 === "Terrestre" && blaCheck === d.Estado && selectValueAs === d.Asociacion){
+                                    return projection([d.lon, d.lat])[1];
+                                }
+                                else{
+                                  return projection([0,0])[0];  
+                                }
+                              }); 
+                        }
+                        else if(ferroCheckboxSelected){
+                          svg.selectAll("circle")
+                              .data(data)
+                              .attr("cx", function(d) {
+                                if(d.Tipo4 === "Ferroviario" && blaCheck === "Todos" && selectValueAs === d.Asociacion){
+                                    return projection([d.lon, d.lat])[0]; 
+                                }
+                                if(d.Tipo4 === "Ferroviario" && blaCheck === d.Estado && selectValueAs === d.Asociacion){
+                                    return projection([d.lon, d.lat])[0];
+                                }
+                                else{
+                                  return projection([0,0])[0];  
+                                }  
+                              })
+                              .attr("cy", function(d) {
+                                if(d.Tipo4 === "Ferroviario" && blaCheck === "Todos" && selectValueAs === d.Asociacion){
+                                  return projection([d.lon, d.lat])[1]; 
+                                }
+                                if(d.Tipo4 === "Ferroviario" && blaCheck === d.Estado && selectValueAs === d.Asociacion){
+                                  return projection([d.lon, d.lat])[1];
+                                }
+                                else{
+                                  return projection([0,0])[0];  
+                                }
+                              });  
+                        }
+                        else (console.log("asiasi"));
+                    }); // END #target onclick
+                }); /* END CSV */
+
+
+                  window.addEventListener('wheel', function(d) {
+                    var inR = 4;
+                    if (d.deltaY < 0) {
+                      console.log('scrolling up');
+                      svg.selectAll("circle")
+                            .attr("r", inR-2);
+                    }
+                    if (d.deltaY > 0) {
+                      console.log('scrolling down');
+                      svg.selectAll("circle")
+                            .attr("r", inR+0.5);
+                    }
+                  });
+
+              }); /* END JSON */
+
+
+
+
+
+
+
+    // ______ resize function
+
+  function resizeResp(){
+        d3.select('svg').remove();
+
+        $("input:checkbox").on('click', function() {
+          // in the handler, 'this' refers to the box clicked on
+          var $box = $(this);
+          if ($box.is(":checked")) {
+            // the name of the box is retrieved using the .attr() method
+            // as it is assumed and expected to be immutable
+            var group = "input:checkbox[name='" + $box.attr("name") + "']";
+            // the checked state of the group/box on the other hand will change
+            // and the current value is retrieved using .prop() method
+            $(group).prop("checked", false);
+            $box.prop("checked", true);
+          } else {
+            $box.prop("checked", false);
+          }
+        });
+
+        var margin = { top: 10, right: 10, bottom: 10, left: 10 },
+                width = parseInt(d3.select("#container").style('width'), 10),
+                width = width - margin.left - margin.right,
+                ratio = .5,
+                height = width * ratio+10,
+                centered,
+                zoom = d3.behavior.zoom();
+
+        var projection = d3.geo.mercator()
+                    .center([-100, 22])
+                    .translate([ width/1.7, height/1.7])
+                    .scale([ width/.7 ]);
+
+        var path = d3.geo.path()
+            .projection(projection);
+
+
+        //svg
+        var svg = d3.select("#container").append("svg")
+              .attr("width", width)
+              .attr("height", height)
+              .call(d3.behavior.zoom().on("zoom", function () {
+                        svg.attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")")
+                      })
+                    )
+              .append("g");
+
+        var popUp = d3.select("#searchPop");
+
+        d3.json("mexico.json", function(json) {
+          var div = d3.select("body").append("div")
+                        .attr("class", "tooltip")
+                        .style("opacity", 0);
+          var div2 = d3.select("body").append("div")
+                        .attr("class", "tooltipAAA")
+                        .style("opacity", 0);
+
+              svg.append("g")
+                  .attr("id", "states")
+                .selectAll("path")
+                  .data(json.features)
+                .enter().append("path")
+                  .attr("d", path)
+                  .attr("fill", "#bae6ef")
+                      .append("title");
+
+            // CSV PROCESS
+              d3.csv("aduanasDatos.csv", function(data) {
+                          svg.selectAll("circle")
+                              .data(data)
+                              .enter()
+                              .append("circle")
+                              .attr("cx", function(d) {
+                                    return projection([d.lon, d.lat])[0];
+                              })
+                              .attr("cy", function(d) {
+                                    return projection([d.lon, d.lat])[1];
+                              })
+                              .attr("r", function(d) {
+                                return Math.sqrt(d.radio) * 3;
+                              })
+                              .style("fill", "red")
+                              .on("mouseover", function(d) {      
+                                  div.transition()        
+                                    .duration(200)      
+                                    .style("opacity", .9);
+                                
+                                  div.html('<h3>Aduana de: '+d.id +'</h3>' + '<p> Dirección:  '+d.Direccion+'</p>' + '<p><span>Tráfico:  </span>'+'<img class="l1"' + 'src="' +d.l1+ '">'  +'<img class="l2"' + 'src="' +d.l2+ '">' + '<img class="l3"' + 'src="' +d.l3+ '">' + '<img class="l4"' + 'src="' +d.l4+ '">' + '</p>'
+                                  )
+                                  .style("left", (d3.event.pageX) + "px")     
+                                  .style("top", (d3.event.pageY - 28) + "px");
+
+                                  div2.transition()        
+                                    .duration(200)      
+                                    .style("opacity", .9);
+                                
+                                  div2.html('<h5>'+d.AAA_Nombre +'</h5>' +'<p> Dirección: '+ d.AAA_Direccion +'</p>' + '<p> Teléfono: <b>'+ d.AAA_Telefono +'</b></p>' + '<p>E-mail:  '+ d.AAA_Email +'</p>'
+                                  )
+                                  .style("left", (d3.event.pageX) + "px")     
+                                  .style("top", (d3.event.pageY + 180) + "px");
+
+                                  if(d.l1 === "No"){
+                                    $(".l1").css("display", "none")
+                                  }
+                                  if(d.l2 === "No"){
+                                    $(".l2").css("display", "none")
+                                  }
+                                  if(d.l3 === "No"){
+                                    $(".l3").css("display", "none")
+                                  }
+                                  if(d.l4 === "No"){
+                                    $(".l4").css("display", "none")
+                                  }
+
+                              })               
+                              .on("mouseout", function(d) {       
+                                  div.transition()        
+                                     .duration(500)      
+                                     .style("opacity", 0);
+                                  div2.transition()        
+                                     .duration(500)      
+                                     .style("opacity", 0); 
+                              });
+   
+                    $( "#target" ).click(function() {
+
+                        var blaCheck = $('#inputTxtId').val();
+                        var selectValueAs = d3.select('#selecIdAs').property('value');
+
+                        var aereoCheckboxSelected = d3.select("#Aereo").property("checked");
+                        var maritimoCheckboxSelected = d3.select("#Maritimo").property("checked");
+                        var terrestreCheckboxSelected = d3.select("#Terrestre").property("checked");
+                        var ferroCheckboxSelected = d3.select("#Ferroviario").property("checked");
+
+                        if(aereoCheckboxSelected){
+
+                           svg.selectAll("circle")
+                              .data(data)
+                              .attr("cx", function(d) {
+                                if(d.Tipo === "Aereo" && blaCheck === "Todos" && selectValueAs === d.Asociacion){
+                                    return projection([d.lon, d.lat])[0]; 
+                                }
+                                else if(d.Tipo === "Aereo" && blaCheck === d.Estado && selectValueAs === d.Asociacion){
+                                    return projection([d.lon, d.lat])[0];
+                                }
+                                else{
+                                  return projection([0,0])[0];  
+                                }   
+                              })
+                              .attr("cy", function(d) {
+                                if(d.Tipo === "Aereo" && blaCheck === "Todos" && selectValueAs === d.Asociacion){
+                                    return projection([d.lon, d.lat])[1]; 
+                                }
+                                else if(d.Tipo === "Areo" && blaCheck === d.Estado  && selectValueAs === d.Asociacion){
+                                    return projection([d.lon, d.lat])[1];
+                                }
+                                else{
+                                  return projection([0,0])[0];  
+                                }
+                              });
+                        }
+                        else if(maritimoCheckboxSelected){
+                           svg.selectAll("circle")
+                              .data(data)
+                              .attr("cx", function(d) {
+                                if(d.Tipo2 === "Maritimo" && blaCheck === "Todos" && selectValueAs === d.Asociacion){
+                                    return projection([d.lon, d.lat])[0]; 
+                                }
+                                else if(d.Tipo2 === "Maritimo" && blaCheck === d.Estado && selectValueAs === d.Asociacion){
+                                    return projection([d.lon, d.lat])[0];
+                                    console.log("Tooodos cx") 
+                                }
+                                else{
+                                   return projection([0,0])[0];
+                                }   
+                              })
+                              .attr("cy", function(d) {
+                                if(d.Tipo2 === "Maritimo" && blaCheck === "Todos" && selectValueAs === d.Asociacion){
+                                    return projection([d.lon, d.lat])[1]; 
+                                }
+                                else if(d.Tipo2 === "Maritimo" && blaCheck === d.Estado && selectValueAs === d.Asociacion){
+                                    return projection([d.lon, d.lat])[1];
+                                }
+                                else{
+                                   return projection([0,0])[0];  
+                                }
+                              });  
+                        }
+                        else if(terrestreCheckboxSelected){
+                          svg.selectAll("circle")
+                              .data(data)
+                              .attr("cx", function(d) {
+                                if(d.Tipo3 === "Terrestre" && blaCheck === "Todos" && selectValueAs === d.Asociacion){
+                                    return projection([d.lon, d.lat])[0]; 
+                                }
+                                else if(d.Tipo3 === "Terrestre" && blaCheck === d.Estado && selectValueAs === d.Asociacion){
+                                    return projection([d.lon, d.lat])[0];
+                                    console.log("Tooodos cx") 
+                                }
+                                else{
+                                   return projection([0,0])[0];  
+                                }   
+                              })
+                              .attr("cy", function(d) {
+                                if(d.Tipo3 === "Terrestre" && blaCheck === "Todos" && selectValueAs === d.Asociacion){
+                                    return projection([d.lon, d.lat])[1]; 
+                                }
+                                if(d.Tipo3 === "Terrestre" && blaCheck === d.Estado && selectValueAs === d.Asociacion){
+                                    return projection([d.lon, d.lat])[1];
+                                }
+                                else{
+                                  return projection([0,0])[0];  
+                                }
+                              }); 
+                        }
+                        else if(ferroCheckboxSelected){
+                          svg.selectAll("circle")
+                              .data(data)
+                              .attr("cx", function(d) {
+                                if(d.Tipo4 === "Ferroviario" && blaCheck === "Todos" && selectValueAs === d.Asociacion){
+                                    return projection([d.lon, d.lat])[0]; 
+                                }
+                                if(d.Tipo4 === "Ferroviario" && blaCheck === d.Estado && selectValueAs === d.Asociacion){
+                                    return projection([d.lon, d.lat])[0];
+                                }
+                                else{
+                                  return projection([0,0])[0];  
+                                }  
+                              })
+                              .attr("cy", function(d) {
+                                if(d.Tipo4 === "Ferroviario" && blaCheck === "Todos" && selectValueAs === d.Asociacion){
+                                  return projection([d.lon, d.lat])[1]; 
+                                }
+                                if(d.Tipo4 === "Ferroviario" && blaCheck === d.Estado && selectValueAs === d.Asociacion){
+                                  return projection([d.lon, d.lat])[1];
+                                }
+                                else{
+                                  return projection([0,0])[0];  
+                                }
+                              });  
+                        }
+                        else (console.log("asiasi"));
+
+                    }); // END #target onclick
+
+
+                }); /* END CSV */
+              }); /* END JSON */
+        } /*-- Rezise function End */
+
+        d3.select(window).on('resize', resizeResp);
+
+
+        </script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,121 @@
+body {
+  margin: 0px;
+  padding: 0px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+section {
+	position: relative;
+	width: 100vw;
+	height: 100vh;
+	max-width:100%;
+	background-color: yellow;
+}
+
+/*
+img {
+	position: relative;
+	width: 100vmax;
+	height: 100vmax;
+	max-width: 100%;
+}
+*/
+
+
+
+/* Icon Font -- EXAMPLES */
+
+[data-icon]:before {
+  font-family: icons; /* BYO icon font, mapped smartly */
+  content: attr(data-icon);
+  speak: none; /* Not to be trusted, but hey. */
+  font-size: 72px;
+}
+
+
+
+
+/* We Love Icon Font -- Examples */
+
+@import url(http://weloveiconfonts.com/api/?family=brandico|zocial);
+
+/* zocial */
+[class*="zocial-"]:before {
+  font-family: 'zocial', sans-serif;
+}
+
+
+
+/*  _________   SCKROLL  _________ */
+
+#progress {
+	height:200px;
+	background:#444;
+	bottom:0;
+	z-index:200;
+	width: 100%;
+}
+
+
+
+
+
+/*  _________   Click and Go  _________ */
+
+article{
+    width:20px;
+    height:20px;
+    background:blue;
+    display:inline-block;
+        margin:5px;
+}
+	article.selected{
+    background:red;
+}
+.circleGo{
+	position:absolute;
+	width:60px;
+	height:60px; 
+	border-radius: 200px;
+	background-color: orange;
+	-webkit-transition: all 3.5s ease-in-out;
+	-moz-transition: all 3.5s ease-in-out;
+	-ms-transition: all 3.5s ease-in-out;
+	-o-transition: all 3.5s ease-in-out;
+	transition: all 3.5s ease-in-out;
+	z-index: 90000;
+	bottom:1px;
+}
+
+
+
+/*  _________  Break Points  _________ */
+.pruebaBreakP {
+	position: relative;
+	width: 200px;
+	height: auto;
+	border: 2px dotted black;
+	background-color: orange;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

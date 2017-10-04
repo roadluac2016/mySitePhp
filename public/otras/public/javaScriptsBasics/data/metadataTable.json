@@ -1,0 +1,154 @@
+{
+		"User1":[
+			{
+				"Name" : "Usuario 1",
+				"Role" : "Web Developer",
+				"Contacts" : {
+							"Mobile" : "044 55 4346 3478",
+							"E-mail" : "roadluac@gmail.com",
+							"GitHub" : "https://github.com/roadluac2016",
+							"Facebook" : "https://www.facebook.com/profile.php?id=100017132474848",
+							"Location" : "Mexico City"
+				},
+				"Welcome Message" : "Pnly Don't Stop",
+				"Age" : 29,
+				"Skills" :["SEO","Front end Developemetnt","Story Telling"],
+				"skillsTable2" : ["SEO","Front end Developemetnt","Story Telling"],
+				"bioPicURL" : "../images/fry.jpg",
+				"Extra" : "Probando"	
+			}
+		],
+
+		"User2":[
+			{
+				"Name" : "Usuario 2",
+				"Role" : "Web Developer",
+				"Contacts" : {
+							"Mobile" : "044 55 4346 3478",
+							"E-mail" : "roadluac@gmail.com",
+							"GitHub" : "https://github.com/roadluac2016",
+							"Facebook" : "https://www.facebook.com/profile.php?id=100017132474848",
+							"Location" : "Mexico City"
+				},
+				"Welcome Message" : "Pnly Don't Stop",
+				"Age" : 29,
+				"Skills" : ["SEO","Front end Developemetnt","Story Telling"],
+				"skillsTable2" : ["SEO","Front end Developemetnt","Story Telling"],
+				"bioPicURL" : "../images/fry.jpg"	
+			}
+		],
+
+		"User3":[
+			{
+				"Name" : "Usuario 3",
+				"Role" : "Web Developer",
+				"Contacts" : {
+							"Mobile" : "044 55 4346 3478",
+							"E-mail" : "roadluac@gmail.com",
+							"GitHub" : "https://github.com/roadluac2016",
+							"Facebook" : "https://www.facebook.com/profile.php?id=100017132474848",
+							"Location" : "Mexico City"
+				},
+				"Welcome Message" : "Pnly Don't Stop",
+				"Age" : 29,
+				"Skills" : ["SEO","Front end Developemetnt","Story Telling"],
+				"skillsTable2" : ["SEO","Front end Developemetnt","Story Telling"],
+				"bioPicURL" : "../images/fry.jpg"	
+			}
+		],
+
+		"User4":[
+			{
+				"Name" : "Usuario 4",
+				"Role" : "Web Developer",
+				"Contacts" : {
+							"Mobile" : "044 55 4346 3478",
+							"E-mail" : "roadluac@gmail.com",
+							"GitHub" : "https://github.com/roadluac2016",
+							"Facebook" : "https://www.facebook.com/profile.php?id=100017132474848",
+							"Location" : "Mexico City"
+				},
+				"Welcome Message" : "Pnly Don't Stop",
+				"Age" : 29,
+				"Skills" : ["SEO","Front end Developemetnt","Story Telling"],
+				"skillsTable2" : ["SEO","Front end Developemetnt","Story Telling"],
+				"bioPicURL" : "../images/fry.jpg"	
+			}
+		],
+
+		"User5":[
+			{
+				"Name" : "Usuario 5",
+				"Role" : "Web Developer",
+				"Contacts" : {
+							"Mobile" : "044 55 4346 3478",
+							"E-mail" : "roadluac@gmail.com",
+							"GitHub" : "https://github.com/roadluac2016",
+							"Facebook" : "https://www.facebook.com/profile.php?id=100017132474848",
+							"Location" : "Mexico City"
+				},
+				"Welcome Message" : "Pnly Don't Stop",
+				"Age" : 29,
+				"Skills" : ["SEO","Front end Developemetnt","Story Telling"],
+				"skillsTable2" : ["SEO","Front end Developemetnt","Story Telling"],
+				"bioPicURL" : "../images/fry.jpg"	
+			}
+		],
+
+		"User6":[
+			{
+				"Name" : "Usuario 6",
+				"Role" : "Web Developer",
+				"Contacts" : {
+							"Mobile" : "044 55 4346 3478",
+							"E-mail" : "roadluac@gmail.com",
+							"GitHub" : "https://github.com/roadluac2016",
+							"Facebook" : "https://www.facebook.com/profile.php?id=100017132474848",
+							"Location" : "Mexico City"
+				},
+				"Welcome Message" : "Pnly Don't Stop",
+				"Age" : 29,
+				"Skills" : ["SEO","Front end Developemetnt","Story Telling"],
+				"skillsTable2" : ["SEO","Front end Developemetnt","Story Telling"],
+				"bioPicURL" : "../images/fry.jpg"	
+			}
+		],
+
+		"User7":[
+			{
+				"Name" : "Usuario 7",
+				"Role" : "Web Developer",
+				"Contacts" : {
+							"Mobile" : "044 55 4346 3478",
+							"E-mail" : "roadluac@gmail.com",
+							"GitHub" : "https://github.com/roadluac2016",
+							"Facebook" : "https://www.facebook.com/profile.php?id=100017132474848",
+							"Location" : "Mexico City"
+				},
+				"Welcome Message" : "Pnly Don't Stop",
+				"Age" : 29,
+				"Skills" : ["SEO","Front end Developemetnt","Story Telling"],
+				"skillsTable2" : ["SEO","Front end Developemetnt","Story Telling"],
+				"bioPicURL" : "../images/fry.jpg"	
+			}
+		],
+
+		"User8":[
+			{
+				"Name" : "Usuario 8",
+				"Role" : "Web Developer",
+				"Contacts" : {
+							"Mobile" : "044 55 4346 3478",
+							"E-mail" : "roadluac@gmail.com",
+							"GitHub" : "https://github.com/roadluac2016",
+							"Facebook" : "https://www.facebook.com/profile.php?id=100017132474848",
+							"Location" : "Mexico City"
+				},
+				"Welcome Message" : "Pnly Don't Stop",
+				"Age" : 29,
+				"Skills" : ["SEO","Front end Developemetnt","Story Telling"],
+				"skillsTable2" : ["SEO","Front end Developemetnt","Story Telling"],
+				"bioPicURL" : "../images/fry.jpg"	
+			}
+		]
+	}

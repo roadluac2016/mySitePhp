@@ -1,0 +1,147 @@
+<html>
+
+<head>
+		<title> Responsive Images </title>
+
+	   <!-- META TAG -->
+		<meta charset="UTF-8">
+		<meta name="description" content="Udacity Front end Web Developer Nano Degree">
+		<meta name="keywords" content="HTML,CSS,XML,JavaScript">
+		<meta name="author" content="Rodrigo Luna">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+	  <!-- CSS Gral. -->
+		<link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+		<link rel="stylesheet" type="text/css" href="stylesheets/menu.css">
+
+	  <!-- FONT AWESOME  -->
+  		<script src="https://use.fontawesome.com/0802afef98.js"></script>
+		
+	  <!-- ZOCIAL -->
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/css-social-buttons/1.3.0/css/zocial.min.css">
+
+	   <!-- PictureFill -->
+		<script>
+		    // Picture element HTML5 shiv
+		    document.createElement( "picture" );
+		</script>
+		<script src="javascripts/picturefill.min.js" async></script>
+</head>
+
+
+
+
+
+<body><!--<div id="skrollr-body">-->
+
+
+
+	<!-- Click and Go -->
+		<article class="prege"></article>
+		<article class="prege"></article>		
+		<img class="circleGo"></img>
+
+
+
+	<!-- WIDTH & HEIGHT 100vw, 100vh, 100vmax -->
+		<section>
+			<img src="images/11.jpg" style="width: 100vw; height: 100vmax; ">
+		</section>
+
+		<div style="position: relative; font-size: 40px; z-index: 9000;" data-0="top:100px" data-500="top:200px">WOOOT</div>
+
+		<section style="background-color: green;"></section>
+		<section style="background-color: blue;"></section>
+
+
+
+	<!-- PARALLAX.js -->
+		<div id="scene">
+		  <div class="layer" data-depth="0.00"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/PNG_transparency_demonstration_2.png/300px-PNG_transparency_demonstration_2.png"></div>
+		  <div class="layer" data-depth="0.20"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/PNG_transparency_demonstration_2.png/300px-PNG_transparency_demonstration_2.png"></div>
+		  <div class="layer" data-depth="0.40"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/PNG_transparency_demonstration_2.png/300px-PNG_transparency_demonstration_2.png"></div>
+		  <div class="layer" data-depth="0.60"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/PNG_transparency_demonstration_2.png/300px-PNG_transparency_demonstration_2.png"></div>
+		  <div class="layer" data-depth="0.80"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/PNG_transparency_demonstration_2.png/300px-PNG_transparency_demonstration_2.png"></div>
+		  <div class="layer" data-depth="3.00"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/PNG_transparency_demonstration_2.png/300px-PNG_transparency_demonstration_2.png"></div>
+		</div>
+
+
+	<!-- ICON FONT -->
+
+		<div class="row">
+			<div class="col-md-6" style="position: relative; width: 100vmax; height: 100vmax; max-width:100%; ">
+					<!-- ZOCIAL -->
+					<ul>
+						<p> ZOCIAL ICONS </p>
+						<li class="zocial twitter"></li>
+						<li class="zocial facebook"></li><br>
+						<li class="zocial flickr"></li>
+						<li class="zocial reddit"></li>
+					</ul> <br><br><br>
+
+					<!-- Icon Font -->
+					<ul>
+						<p>Icon Font Icons</p>
+					  	<span aria-hidden="true" data-icon="&#x21dd;"></span>
+					  	<span aria-hidden="true" data-icon="&#x26a0;"></span><br>
+					  	<span aria-hidden="true" data-icon="&#x231a;"></span>
+					  	<span aria-hidden="true" data-icon="&#x25cc;"></span>
+					</ul>
+			</div>
+			<div class="col-md-6" style="position: relative; width: 100vmax; height: 100vmax; max-width:100%;">
+
+					<!--
+					<img src="small.jpg"
+					     srcset="images/4.png 1024w,
+					             images/4_md.png 640w,
+					             images/1_sm.png 500w" 
+					     sizes="100vw"
+					     alt="Estos bottes anaranjados de plástico" 
+					/>-->
+			</div>
+		</div> <!-- END clas="row" -->
+
+
+	<!-- SKROLL.j -->
+
+		<div id="progress" data-0="width:0%;background:hsl(200, 100%, 50%);" data-end="width:100%;background:hsl(920, 100%, 50%);"></div>
+		<div class="drop" id="divSkroll" data-6500="left:15%;bottom:100%;" data-9500="bottom:0%;">linear</div>
+
+
+
+	<!-- Picture Element + PolyFill-(for browsers that do not supoort "<picture>" ) -->
+
+		<picture>
+		  <source
+		    media="(min-width: 1000px)"
+		    srcset="images/kookaBurra/kookaburra_large_1x.jpg 1x, kookaburra_large_2x.jpg 2x">
+		  <source
+		    media="(min-width: 500px)"
+		    srcset="images/kookaBurra/kookaburra_medium_1x.jpg 1x, kookaburra_medium_2x.jpg 2x">
+		  <img src="images/kookaBurra/kookaburra_small.jpg"
+		    alt="The kookaburra: a terrestrial tree kingfisher native to Australia and New Guinea">
+		</picture>
+	
+
+		<picture>
+		    <source media="(min-width: 650px)" srcset="images/cat/kitten-large.png">
+		    <source media="(min-width: 465px)" srcset="images/cat/kitten-medium.png">
+		    <img src="images/cat/kitten-small.png" alt="Cute kitten">
+		</picture>
+
+
+<div class="row">
+	<div class="col-md-6"></div>
+	<div class="col-md-6"></div>
+</div>
+
+
+	<!-- Java Script Gral. -->
+		<script src="javascripts/jsAllFiles.min.js"></script>
+
+<!--</div>--></body>
+</html>

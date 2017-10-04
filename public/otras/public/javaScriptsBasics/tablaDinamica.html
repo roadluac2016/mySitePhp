@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="description" content="Html Tables. Adding Microdata dynamically">
+		<meta name="keywords" content="HTML,CSS,JavaScript, Microdata, JSON">
+		<meta name="author" content="Rodrigo Luna">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>Tabla Bootsrtap Datos Dinámicos</title>
+
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+		<!-- <script src="js/tableHelpIntJson.js"></script> -->
+		<script src="js/tableHelpExtJson.js"></script>
+	</head>
+
+
+
+
+
+
+
+	<body>
+
+
+		<!-- Tabla JSON en JS fle -->
+			<div id="tableBox" class="table-responsive"></div>
+
+
+		<!-- Tabla External JSON: OnClick-->
+	        <button id="get-data">Show me data from external JSON</button>                 
+			<div class="table-responsive">          
+			    <table id="show-data" class="table">
+				      <thead>
+				        <tr>
+				          <th>Numero</th>
+				          <th>Nombre</th>
+				          <th>Apellido</th>
+				          <th>Edad</th>
+				          <th>Ciudad</th>
+				          <th>Pais</th>
+				        </tr>
+				      </thead>
+				</table>
+			</div>
+
+
+			<script>
+
+				$(document).ready(function () {
+				  $('#get-data').click(function () {
+					    var showData = $('#show-data');
+
+					    $.getJSON('data/tablaDinamica.json', function (data) {
+					      console.log(data);
+
+					      var items = data.itemsDos.map(function (item) {
+					        return item.Numero + item.Nombre; + item.Apellido; + item.Edad; + item.Ciudad; + item.Pais;
+					      });
+
+					      showData.empty();
+
+					      for (var iDos = 0; iDos < items.length; iDos++) {
+					        var content = '<tr>' + items.join('</td><td>') + '</tr>';
+					        var list = $('<tbody/>').html(content);
+					        showData.append(list);
+					      }
+				    	}); showData.text('Loading the JSON file.');
+				 	});
+				});
+
+			</script>
+
+
+
+	</body>
+</html>
