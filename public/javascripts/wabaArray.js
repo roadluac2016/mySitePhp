@@ -235,17 +235,24 @@ $(document).ready(function () {
 
       $( "#ipadBox" ).hover(
             function() {
-                $( ".hand" )
-                .animate({ bottom: "-50px" }, )
-                .animate({ left: "100px" }, )
-                .animate({ top: "460px" }, 690);
+              $( ".hand" )
+              .animate({ bottom: "-50px" }, )
+              .animate({ left: "100px" }, )
+              .animate({ top: "460px" }, 690);
             }, 
             function() {
-                  $( ".hand" ) 
-                  .animate({ top: "230px" },).animate({ bottom: "710px" }, );
+              $( ".hand" ) 
+              .animate({ top: "230px" },).animate({ bottom: "710px" });
             }   
       );
 
+      var mFirstTxt = "<div class='thinkIpad'>THINK WITH THE BODY AS A BRAIN ALL-IN ONE</div>";
+
+       $( ".flex-container > .col-md-6  > .flex-item:nth-child(2)" ).hover( function() {
+          $(".animateInside").append(mFirstTxt);
+        });
+      
+$(".animateInside").append(mFirstTxt);
 }); // END Document READY
 
 

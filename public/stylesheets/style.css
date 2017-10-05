@@ -1587,17 +1587,21 @@ top:15%;
 	}
 
  path {
-  stroke-dasharray: 1000;
+  stroke-dasharray: 10000;
   stroke-dashoffset: 1000;
   animation: dash 5s linear alternate infinite;
+
+  stroke:black;
+  stroke-width:0.45;
+  stroke-linecap:round; 
 }
 
 @keyframes dash {
   from {
-    stroke-dashoffset: 1000;
+    stroke-dasharray: 1000;
   }
   to {
-    stroke-dashoffset: 0;
+    stroke-dasharray: 0;
   }
 }
 
@@ -1605,9 +1609,29 @@ top:15%;
 	position: absolute;
 	width: 100%;
 	height: auto;
-	border-top:3px dotted orange;
 	top: 50px;
 }
 
+.thinkIpad {
+	font-size: 28px;
+	width: 80%;
+	position: relative;
+	text-align: left;
+	color: white;
+	border:1px solid red;
+	display: block;
+	float: none;
+	margin-right: auto;
+	margin-left: auto;
+	font-weight: bold;
+	top: -5%;
+	padding: 10px;
+}
+#line{
+    width: 100%;
+    margin: 20px 0;
+    height: 300px;
+    background: red;
+  }
 
  
