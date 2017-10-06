@@ -132,10 +132,64 @@
 		    }, 1000);
 		});
 
+
+    var canvasMio = d3.select("#d3CanvasHead");
+		    contextMio = canvasMio.getContext("2d"),
+		    widthMio = canvasMio.widthMio,
+		    heightMio = canvasMio.heightMio,
+		    tau = 2 * Math.PI;
+
+		var nodesMio = d3.range(1000).map(function(i) {
+		  return {
+		    r: Math.random() * 14 + 4
+		  };
+		});
+
+		var simulationMio = d3.forceSimulation(nodesMio)
+		    .velocityDecay(0.2)
+		    .force("x", d3.forceX().strength(0.002))
+		    .force("y", d3.forceY().strength(0.002))
+		    .force("collide", d3.forceCollide().radius(function(d) { return d.r + 0.5; }).iterations(2))
+		    .on("tick", tickedss);
+
+		function tickedss() {
+		  contextMio.clearRect(0, 0, widthMio, heightMio);
+		  contextMio.save();
+		  contextMio.translate(widthMio / 2, heightMio / 2);
+
+		  contextMio.beginPath();
+		  nodesMio.forEach(function(d) {
+		    contextMio.moveTo(d.x + d.r, d.y);
+		    contextMio.arc(d.x, d.y, d.r, 0, tau);
+		  });
+		  contextMio.fillStyle = "#ddd";
+		  contextMio.fill();
+		  contextMio.strokeStyle = "#333";
+		  contextMio.stroke();
+
+		  contextMio.restore();
+
+		}
+
 	});
 
 
 
+function goToByScroll(id){
+          // Reove "link" from the ID
+        id = id.replace("link", "");
+          // Scroll
+        $('html,body').animate({
+            scrollTop: $("#"+id).offset().top},
+            'slow');
+    }
+
+    $("#sidebar > ul > li > a").click(function(e) { 
+          // Prevent a page reload when a link is pressed
+        e.preventDefault(); 
+          // Call the scroll function
+        goToByScroll($(this).attr("id"));           
+    });
 
 		
 </script>
@@ -178,9 +232,7 @@
 					    </div>
 
 					  </div> <!-- END container-fluid -->
-
-					</nav>
-					
+					</nav>	
 					<!-- Menu Interactivity -->
 						<script src="javascripts/menuInter.js"></script>
 				</header>
@@ -217,8 +269,8 @@
 			<!-- ** JS ** -->
 			<!-- Control and functions "RETRATO"-->
 				<script type="text/javascript" src="javascripts/outerSapce.js"></script>
-			<!-- 3D BackGround-->
-				<script type="text/javascript" src="javascripts/threeJs/back3d.js" ></script>
+			<!-- 3D BackGround -->
+				<script type="text/javascript" src="javascripts/threeJs/back3d.js" ></script> 
 
 			<!-- OUTER-SPACE Background -->
 				<div class="outerSapce">
@@ -285,10 +337,11 @@
 			<button id="randomize">Create random line</button>
 			<div class="boxHeadGral" id="boxHeadGral" style="position: relative;padding: 50px 0px 0px 0px;width:100%; height: auto; ">
 				<img src="images/cabezaYellow.png" style="width: 100%;">
-				<script src="javascripts/headSvgAnimations.js"></script>
 				<!--<form>
       				<input type="checkbox" id="pathTrigger" name="visibility" value="hidden">Show/Hide path</br>
     			</form>-->
+    			<object id="d3CanvasHead"></object>
+    			<script src="javascripts/headSvgAnimations.js"></script>
 			</div>
 	
 			<div class="flexBoxes">
@@ -550,27 +603,6 @@ $(document).ready(function() {
 });
 </script>
 		</footer>
-
-
-
-
-
-  
-</svg>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
