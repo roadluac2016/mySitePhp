@@ -102,29 +102,16 @@
 
 
 
-
-
-
-
-		/* Adding our svg file to HTML document 
-		var importedNode = document.importNode(xml.documentElement, true);
-		d3.select(".boxHeadGral").node().appendChild(importedNode); */
-
 		var svgTrace = d3.select("#Capa_1");
 
 		var pathTrace = svgTrace.select("path#headPathOne"),
 		startPoint = pathStartPoint(pathTrace);
 
 		var markerTrace = svgTrace.append("image")
-		  .attr("xlink:href", "./images/uiUx.png")
+		  .attr("xlink:href", "https://img00.deviantart.net/2d97/i/2010/266/4/1/planet_stock_png_by_ravenmaddartwork-d2zay40.png")
 		  .attr("transform", "translate(" + startPoint[0] + "," + startPoint[1] + ")")
-		  .attr("width", 148)
-		  .attr("height", 124);  
-
-
-
-
-
+		  .attr("width", 38)
+		  .attr("height", 33);  
 
 		var circleS = 
 		    svgTrace.append("circle")
@@ -140,7 +127,7 @@
 	    var scale = pathLength/BBox.width;  // SIGUES IGUAL SIN ESTA LINEA
 	    var offsetLeft = document.getElementById("boxHeadGral").offsetLeft;
 
-	   /* CIRCLE MOVEMENT - MOUSE MOVE - FOLLOW THE CURSOR */
+/* CIRCLE MOVEMENT - MOUSE MOVE - FOLLOW THE CURSOR */
 	    svgTrace.on("mousemove", function() {
 	      var x = d3.event.pageX - offsetLeft; 
 	      var beginning = x, end = pathLength, target;
@@ -160,14 +147,13 @@
 	        .attr("cy", pos.y);
 	    });
 
-		transition();
-
 		/* Get path start point for placing marker */
 		function pathStartPoint(pathTrace) {
 		    var d = pathTrace.attr("d"),
 		    dsplitted = d.split(" ");
 		    return dsplitted[0].split(",");
 		};
+
 
 		function transition() {
 		    markerTrace.transition()
@@ -194,6 +180,21 @@
 		}
 
 
+
+
+$( "#anima" ).click(function() {
+					/* Adding our svg file to HTML document 
+		var importedNode = document.importNode(xml.documentElement, true);
+		d3.select(".boxHeadGral").node().appendChild(importedNode); */
+
+	   
+
+		transition();
+
+
+
+  
+});
 
 
 					

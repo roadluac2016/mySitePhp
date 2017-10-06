@@ -3,7 +3,6 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-
 	    <title> Rodrigo Luna CV</title>
 	    
 	    	<!-- Meta Tags -->
@@ -20,12 +19,10 @@
 
 		<!-- D3 -->
 			<script src="javascripts/d3/d3.v4.min.js"></script> <!-- http://d3js.org/d3.v3.min.js -->
-			<script src="http://d3js.org/queue.v1.min.js"></script>
-			<script src="https://unpkg.com/topojson-client@2"></script>
+			<script src="javascripts/queue.v1.min.js"></script>
 			<script src="javascripts/d3/resizedCharts.js"></script>
 		<!--  D3js plugins -->
 			<script src="javascripts/d3/d3-selection-multi.v0.4.min.js"></script>
-
 
 		<!-- CSS gral. -->
 			<link rel="stylesheet" type="text/css" href="stylesheets/style.css">
@@ -335,6 +332,7 @@ function goToByScroll(id){
 
 		<section id="secWaba">	
 			<button id="randomize">Create random line</button>
+			<button id="anima" class="buttonAnima" style="top:150px; z-index:40000;">Anima...</button>
 			<div class="boxHeadGral" id="boxHeadGral" style="position: relative;padding: 50px 0px 0px 0px;width:100%; height: auto; ">
 				<img src="images/cabezaYellow.png" style="width: 100%;">
 				<!--<form>
@@ -345,6 +343,7 @@ function goToByScroll(id){
 			</div>
 	
 			<div class="flexBoxes">
+				<div class="backFocus"></div>
 				<div class="flex-container">
 				<div class="col-md-6">
 					<div class="toolsTextBoxSec2">
@@ -380,63 +379,6 @@ function goToByScroll(id){
 				  	UX / UI
 				  </div>
 				</div>
-				 	<!--<div class="sBox1">
-							<div class="toolsTextBoxSec2">
-								<p> 
-									<span> < </span> 
-									LEARNING
-									<span> /> </span>  
-								</p>
-								<p>
-									Actually, i prepare to become Full-Stack Web Developer 
-								</p>
-							</div>
-							<div>
-				  				<span><b>
-				  					Full Stack Web Developer 
-				  					<span style="color: #f74a5b">(2017)</span>
-				  				</b></span> 
-				  				<span> / Google + UDACITY</span>
-				  			</div>
-				  			<div>
-				  				<span><b>Introduction to Jquery</b></span>
-				  				<span> / MICROSOFTx</span>
-				  			</div>
-				  			<div>
-				  				<span><b>Mobile Application Experiences</b></span> 
-				  				<span> / MITx</span>
-				  			</div>
-				  			<div>
-				  				<span><b>Responsive Data Visualization whit D3.js</b></span> 
-				  				<span> / UDEMY</span>
-				  			</div>
-				  			<div>
-				  				<span><b>Graphic Design</b></span>
-				  				<span> / UVM Tlalpan</span>
-				  			</div>
-				  			<div>
-				  				<span><b>Musical Production</b></span>
-				  				<span> / G-Martell CMTA</span>
-				  			</div>
-				  			<div>
-				  				<span><b>Minds and Machines</b></span>
-				  				<span> / MITx</span>
-				  			</div>
-				  			<div>
-				  				<span><b>HTML</b></span>
-				  				<span> /  W3C X + Intel</span>
-				  			</div>
-				  			<div>
-				  				<span><b>Relationship beetwen Math and Art</b></span>
-				  				<span> / Institute of Mathematics - UNAM</span>
-				  			</div>
-				  			<div>
-				  				<span><b>Posibilities and artistic uses of Arduino</b></span>
-				  				<span> / CM - CENART</span>
-				  			</div>
-			  			</div>
-				</div>
-			</div> -->
 			<div class="col-md-6">
 				<div class="ipadBox" id="ipadBox">
 					<div class="animateInside">
@@ -453,7 +395,7 @@ function goToByScroll(id){
 		</section>
 
 	<!-- SECTION 3 -->
-		<section class="sec3" style="background: linear-gradient(-40deg, #ddc65d, rgba(248,95,164,0.85));"> 
+		<section class="sec3" style="background: linear-gradient(-40deg, #ddc65d, rgba(248,95,164,0.35));"> 
 			<div class="toolsTextBoxSec2" >
 				<p style="color: white; letter-spacing: 2px;"> 
 					<span> < </span> 
@@ -534,38 +476,7 @@ roadluac@gmail.com </a></span>
 					</p>
 				</div>
 			</div>
-		<!-- <h2> Where do we meet? </h2>-->
-				<!-- GOOGLE MAPS buttons
-			      <p style="font-size: black; font-weight: bold; width: 300px; padding: 2px; border-bottom:1px solid orange;"> HAZ CLICK EN ALGÚN BOTÓN o Elije alúno de la lista</p>
-			      <div id="1" class="btn btn-warning" style="padding:4px; cursor:pointer;">Restaurants</div>
-			      <div id="2" class="btn btn-warning" style="padding:4px;cursor:pointer;">Pubs</div>
-			      <div id="3" class="btn btn-warning" style="padding:4px;cursor:pointer;">Nature</div>
-			      <br>
-			      <br>
-			      
 
-				<div>
-					<div class="descargas">
-						<a href="documents/cv9.1.doc" target="_blanck">
-								<div class="descUno">
-								<img src="images/cuartilla.png" class="img-responsive">
-								<span>Descarga CV (diseño)</span>
-						</a>
-						<a href="http://www.stps.gob.mx/gobmx/estadisticas/" target="_blank"><div class="descUno">
-								<img src="images/chart.png" class="img-responsive">
-								<span>Descarga CV (word)</span>
-						</a>
-					</div>
-				</div>
--->
-
-				<!-- <div id="map-canvas" style="width: 100vw;height: 300px; margin:0px; padding: 0px;"></div>  
-			 Jquery & Google Maps API-Key reference -->
-			    <!-- DEBEN DE IR DENTRO DEL BODY, DESPUES DEL HTML Y ANTES DEL SCRIPT PARA QUE LA API FUNCION
-			        <script src="http://maps.googleapis.com/maps/api/js?libraries=places"></script>
-			     	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCUZM85W11vNISuvKb-g12S9eekbcMaW8&callback=initMap"></script>E-->
-			<!-- GOOGLE MAPS API Archivo 
-			    <script src="javascripts/mapsApi.js" ></script>-->
 <div class="drop">
     <div>
         <img src="http://pngimages.net/sites/default/files/pie-chart-png-image-100613.png"/>
@@ -609,6 +520,171 @@ $(document).ready(function() {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<div class="sBox1">
+							<div class="toolsTextBoxSec2">
+								<p> 
+									<span> < </span> 
+									LEARNING
+									<span> /> </span>  
+								</p>
+								<p>
+									Actually, i prepare to become Full-Stack Web Developer 
+								</p>
+							</div>
+							<div>
+				  				<span><b>
+				  					Full Stack Web Developer 
+				  					<span style="color: #f74a5b">(2017)</span>
+				  				</b></span> 
+				  				<span> / Google + UDACITY</span>
+				  			</div>
+				  			<div>
+				  				<span><b>Introduction to Jquery</b></span>
+				  				<span> / MICROSOFTx</span>
+				  			</div>
+				  			<div>
+				  				<span><b>Mobile Application Experiences</b></span> 
+				  				<span> / MITx</span>
+				  			</div>
+				  			<div>
+				  				<span><b>Responsive Data Visualization whit D3.js</b></span> 
+				  				<span> / UDEMY</span>
+				  			</div>
+				  			<div>
+				  				<span><b>Graphic Design</b></span>
+				  				<span> / UVM Tlalpan</span>
+				  			</div>
+				  			<div>
+				  				<span><b>Musical Production</b></span>
+				  				<span> / G-Martell CMTA</span>
+				  			</div>
+				  			<div>
+				  				<span><b>Minds and Machines</b></span>
+				  				<span> / MITx</span>
+				  			</div>
+				  			<div>
+				  				<span><b>HTML</b></span>
+				  				<span> /  W3C X + Intel</span>
+				  			</div>
+				  			<div>
+				  				<span><b>Relationship beetwen Math and Art</b></span>
+				  				<span> / Institute of Mathematics - UNAM</span>
+				  			</div>
+				  			<div>
+				  				<span><b>Posibilities and artistic uses of Arduino</b></span>
+				  				<span> / CM - CENART</span>
+				  			</div>
+			  			</div>
+				</div>
+			</div> -->
+
+
+
+		<!-- <h2> Where do we meet? </h2>-->
+				<!-- GOOGLE MAPS buttons
+			      <p style="font-size: black; font-weight: bold; width: 300px; padding: 2px; border-bottom:1px solid orange;"> HAZ CLICK EN ALGÚN BOTÓN o Elije alúno de la lista</p>
+			      <div id="1" class="btn btn-warning" style="padding:4px; cursor:pointer;">Restaurants</div>
+			      <div id="2" class="btn btn-warning" style="padding:4px;cursor:pointer;">Pubs</div>
+			      <div id="3" class="btn btn-warning" style="padding:4px;cursor:pointer;">Nature</div>
+			      <br>
+			      <br>
+			      
+
+				<div>
+					<div class="descargas">
+						<a href="documents/cv9.1.doc" target="_blanck">
+								<div class="descUno">
+								<img src="images/cuartilla.png" class="img-responsive">
+								<span>Descarga CV (diseño)</span>
+						</a>
+						<a href="http://www.stps.gob.mx/gobmx/estadisticas/" target="_blank"><div class="descUno">
+								<img src="images/chart.png" class="img-responsive">
+								<span>Descarga CV (word)</span>
+						</a>
+					</div>
+				</div>
+-->
+
+				<!-- <div id="map-canvas" style="width: 100vw;height: 300px; margin:0px; padding: 0px;"></div>  
+			 Jquery & Google Maps API-Key reference -->
+			    <!-- DEBEN DE IR DENTRO DEL BODY, DESPUES DEL HTML Y ANTES DEL SCRIPT PARA QUE LA API FUNCION
+			        <script src="http://maps.googleapis.com/maps/api/js?libraries=places"></script>
+			     	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCUZM85W11vNISuvKb-g12S9eekbcMaW8&callback=initMap"></script>E-->
+			<!-- GOOGLE MAPS API Archivo 
+			    <script src="javascripts/mapsApi.js" ></script>-->
 
 	</body>
 </html>
