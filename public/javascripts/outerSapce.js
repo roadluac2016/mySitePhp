@@ -133,6 +133,7 @@ $(document).ready(function () {
         timesClicked++
         if (timesClicked % 2 == 0) {
 
+            $(".sec3").css("background","linear-gradient(-40deg, #ddc65d, rgba(248,95,164,9.95)");
             /* BackGround ANIMATION */
             $("canvas").stop().animate({ 
                     top: "0px",
@@ -151,6 +152,7 @@ $(document).ready(function () {
         } /* END if */
 
         else {
+            $(".sec3").css("background","linear-gradient(-40deg, #ddc65d, rgba(248,95,164,0.25)");
             /* BackGround ANIMATION */
             $("canvas").stop().animate({ 
                     top: "-100%",

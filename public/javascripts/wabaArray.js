@@ -132,17 +132,18 @@ $(document).ready(function () {
 
 
       var divWaba = document.getElementById('ipadBox');
+      var divWabaBottom = document.getElementById('animateInsideBottom');
       var containerWaba = document.getElementById('secWaba');
       var me = function(event) {
           var x = event.clientX,
               y = event.clientY,
               w = divWaba.offsetWidth,
               m = 380,
-              square = divWaba.getBoundingClientRect(),
               pxToBox = (x - w),
               left =  m * pxToBox/this.offsetWidth;
           console.log(left);
           divWaba.style.left = left + 'px';
+          divWabaBottom.style.left = left + 'px';
       };
       containerWaba.addEventListener('mousemove', me, false);
 

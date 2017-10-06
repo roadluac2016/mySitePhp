@@ -860,6 +860,7 @@ top:15%;
 	background: white;
 	border-top:2px solid green;
   	border-right:2px solid orange;
+  	border-bottom:2px solid #1dced4;
 	bottom:0px;border-top-right-radius: 35px;
 }
 
@@ -879,7 +880,7 @@ top:15%;
         margin: 0 auto;
         background: radial-gradient( white, #f9f7f7);
         border-top:1px solid black;
-        border-bottom:10px solid yellow;
+        border-bottom:3px solid #c9c9c9;
         border-left:1px solid #c9c9c9;
         border-right:1px solid #c9c9c9;
         -webkit-transform-origin:top center;
@@ -913,7 +914,13 @@ top:15%;
               }
           }
 
-
+#bottomIpad {
+	position: absolute;
+	width: 100%;
+	height: 300px;
+	z-index: 90000;
+	bottom:-100px;
+}
 
 
 
@@ -1632,6 +1639,18 @@ top:15%;
 		margin-right: auto;
 		margin-left: auto;
 		top: 15%;
+	}
+
+	.animateInsideBottom{
+		position: relative;
+		width: 660px;
+		height: auto;
+		display: block;
+		float: none;
+		margin-right: auto;
+		margin-left: auto;
+		top: 14%;
+		z-index: 10;
 	}
 
  path {
