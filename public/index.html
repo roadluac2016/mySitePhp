@@ -130,47 +130,6 @@
 		});
 
 
-    var canvasMio = d3.select("#d3CanvasHead");
-		    contextMio = canvasMio.getContext("2d"),
-		    widthMio = canvasMio.widthMio,
-		    heightMio = canvasMio.heightMio,
-		    tau = 2 * Math.PI;
-
-		var nodesMio = d3.range(1000).map(function(i) {
-		  return {
-		    r: Math.random() * 14 + 4
-		  };
-		});
-
-		var simulationMio = d3.forceSimulation(nodesMio)
-		    .velocityDecay(0.2)
-		    .force("x", d3.forceX().strength(0.002))
-		    .force("y", d3.forceY().strength(0.002))
-		    .force("collide", d3.forceCollide().radius(function(d) { return d.r + 0.5; }).iterations(2))
-		    .on("tick", tickedss);
-
-		function tickedss() {
-		  contextMio.clearRect(0, 0, widthMio, heightMio);
-		  contextMio.save();
-		  contextMio.translate(widthMio / 2, heightMio / 2);
-
-		  contextMio.beginPath();
-		  nodesMio.forEach(function(d) {
-		    contextMio.moveTo(d.x + d.r, d.y);
-		    contextMio.arc(d.x, d.y, d.r, 0, tau);
-		  });
-		  contextMio.fillStyle = "#ddd";
-		  contextMio.fill();
-		  contextMio.strokeStyle = "#333";
-		  contextMio.stroke();
-
-		  contextMio.restore();
-
-		}
-
-	});
-
-
 
 function goToByScroll(id){
           // Reove "link" from the ID
@@ -323,61 +282,87 @@ function goToByScroll(id){
 					That's why i have worked as a Front End Web Developer for over 3 years.
 				</p>
 			</div>
-				
 			<div> 
 				<img src="images/burguerC.png" class="img-responsive burguer">
 			</div><!-- END col-md-6 -->
 		</section>
 
 
-		<section id="secWaba">	
-			<!--<button id="randomize">Create random line</button>-->
-			<button id="anima" class="buttonAnima" style="top:150px; z-index:40000;">Anima...</button>
+
+
+
+
+
+
+
+
+
+
+
+
+
+		<section id="secWaba" style="padding: 0px;">
+		<!--<button id="randomize">Create random line</button>-->
 			<div class="boxHeadGral" id="boxHeadGral" style="position: relative;padding: 50px 0px 0px 0px;width:100%; height: auto; ">
-				<img src="images/cabezaYellow.png" style="width: 100%;">
+				 <!-- <svg viewBox="0 0 1360 402">
+				    <polygon points="1360 502 0 402 0 130 1360 0 1360 252"/>
+				  </svg>-->
+				<img src="images/cabezaYellow.png" style="width: 100%; position: relative; right: 0px; ">
 				<!--<form>
       				<input type="checkbox" id="pathTrigger" name="visibility" value="hidden">Show/Hide path</br>
     			</form>-->
     			<object id="d3CanvasHead"></object>
     			<script src="javascripts/headSvgAnimations.js"></script>
-			</div>
-	
+			</div>	
 			<div class="flexBoxes">
-				<div class="backFocus"></div>
-				<div class="flex-container">
+			  <div class="backFocus"></div>
+			  <div class="flex-container">
 				<div class="col-md-6">
+					<br><br>
 					<div class="toolsTextBoxSec2">
 						<p> 
 							<span> < </span> 
 							FOCUS
 							<span> /> </span>  
 						</p>
-						<p>
-							Analyze and synthesize information and data into knowledge <br> to create new and better life experiences
-						</p>
-						<br><br>
+						
 					</div>
 
 				  <div class="flex-item">
-				  	<img src="images/mobileFisrt.png" ><br>
-				  	Mobile <br>First
+				  	<!-- <img src="images/mobileFisrt.png" > -->
+				  	<svg>
+						<image xlink:href="images/svg/cyborg.svg">
+					</svg><br>
+				  	Cyborg <br>Small Devices
 				  </div>
 				  <div class="flex-item">
-				  	<img src="images/aReality.png" ><br>
+				  	<!-- <img src="images/aReality.png" > -->
+				  	<svg>
+						<image xlink:href="images/svg/headEyes.svg">
+					</svg><br>
 				  	Augmented <br>Reality
 				  </div>
 				  <div class="flex-item">
-				  	<img src="images/technology/globalN.png" ><br>
+				  	<!-- <img src="images/technology/globalN.png" > -->
+				  	<svg>
+						<image xlink:href="images/svg/worldSvg.svg">
+					</svg><br>
 				  	Global / Local <br>Networks
 				  </div>
 				  <div class="flex-item">
-				  	<img src="images/portableBrain.png" ><br>
+				  	<!-- <img src="images/portableBrain.png" >-->
+				  	<svg>
+						<image xlink:href="images/svg/brainBoxSvg.svg">
+					</svg><br>
 				  	Artificial <br>Intelligence
 				  </div>
 				  <div class="flex-item">
-				  	<img src="images/uiUx.png" ><br>
+				  	<!-- <img src="images/uiUx.png" > -->
+				  	<svg>
+						<image xlink:href="images/svg/tortuga.svg">
+					</svg><br>
 				  	UX / UI
-				  </div>
+				  </div> <br>
 				</div>
 			<div class="col-md-6">
 				<div class="ipadBox" id="ipadBox">
@@ -387,38 +372,37 @@ function goToByScroll(id){
 					</div>
 					<img src="images/tablet.png" class="ipad">
 				</div>
+				<div class="animateInsideBottom" id="animateInsideBottom">
+					<svg version="1.1" id="bottomIpad" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+						 width="1156px" height="180.394px" viewBox="0 0 1156 180.394" enable-background="new 0 0 1156 180.394" xml:space="preserve">
+					<g>
+						<path fill="#FFFFFF" d="M132.191,0c0,0,0,35.612,0,79.138s45,79.138,100,79.138h668.83c55,0,100-35.612,100-79.138
+							s0-79.138,0-79.138"/>
+						<path fill="none" stroke="#575A5A" stroke-width="3" stroke-miterlimit="10" d="M132.191,0c0,0,0,35.612,0,79.138
+							s45,79.138,100,79.138h668.83c55,0,100-35.612,100-79.138s0-79.138,0-79.138"/>
+					</g>
+					<polyline opacity="0.4" fill="#ACADAA" stroke="#395CA2" stroke-width="0.75" stroke-miterlimit="10" points="176.456,0 
+						176.456,78.638 957.669,78.638 957.669,0 "/>
+					<g>
+					</g>
+					<g>
+					</g>
+					<g>
+					</g>
+					<g>
+					</g>
+					<g>
+					</g>
+					<g>
+					</g>
+					</svg>
+				</div>
 
 
-<div class="animateInsideBottom" id="animateInsideBottom">
-<svg version="1.1" id="bottomIpad" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="1156px" height="180.394px" viewBox="0 0 1156 180.394" enable-background="new 0 0 1156 180.394" xml:space="preserve">
-<g>
-	<path fill="#FFFFFF" d="M132.191,0c0,0,0,35.612,0,79.138s45,79.138,100,79.138h668.83c55,0,100-35.612,100-79.138
-		s0-79.138,0-79.138"/>
-	<path fill="none" stroke="#575A5A" stroke-width="3" stroke-miterlimit="10" d="M132.191,0c0,0,0,35.612,0,79.138
-		s45,79.138,100,79.138h668.83c55,0,100-35.612,100-79.138s0-79.138,0-79.138"/>
-</g>
-<polyline opacity="0.4" fill="#ACADAA" stroke="#395CA2" stroke-width="0.75" stroke-miterlimit="10" points="176.456,0 
-	176.456,78.638 957.669,78.638 957.669,0 "/>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-</svg>
-</div>
 			</div> <!-- END col-md-6 -->
 
+
 			<script type="text/javascript" src="javascripts/wabaArray.js"></script>
-
-
 		</section>
 
 	<!-- SECTION 3 -->
@@ -480,19 +464,14 @@ function goToByScroll(id){
 				<p>
 					Thank you. See you soon!<br>
 					<span><a href="roadluac@gmail.com"><i class="fa fa-envelope" aria-hidden="true"></i>
-roadluac@gmail.com </a></span>
+					roadluac@gmail.com </a></span>
 					<span>  |</span>
 					<span class="phoneNumber1"><i class="fa fa-mobile" aria-hidden="true"></i>(044)</span>
 					<span class="phoneNumber"> 55 4346 3478</span>
 				</p>
-				
 			</div>
 			<img src="images/iphoneC.png" class="phone img-responsive">
 		</section>
-
-
-
-
 		<footer>
 			<div class="sBox2">
 				<p class="uniCode col-md-3"><span>&#9749;</span></p>
@@ -503,12 +482,12 @@ roadluac@gmail.com </a></span>
 					</p>
 				</div>
 			</div>
-
-<div class="drop">
-    <div>
-        <img src="http://pngimages.net/sites/default/files/pie-chart-png-image-100613.png"/>
-    </div>
-</div>
+		<div class="drop">
+		    <div>
+		        <img src="http://pngimages.net/sites/default/files/pie-chart-png-image-100613.png"/>
+		    </div>
+		  
+		</div>
 
 <script>
 $(document).ready(function() {

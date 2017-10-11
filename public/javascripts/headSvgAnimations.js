@@ -22,86 +22,6 @@
 	.defer(d3.xml, "../svg/svgHead.svg")
 	.await(ready);
 	function ready(error, xml) {
-
-
-/* FORCE BUBBLES-CIRCLES */
-    var widthHeadSv = 400;
-    var heightHeadSv = 400;
-    var svgHead = d3.select("#d3CanvasHead")
-    	.append("svg")
-	      .attr("width", widthHeadSv)
-	      .attr("height", heightHeadSv)
-	      .attr("class", "d3CanvasHeadClass");
-    var dataHead = d3.range(100).map(function() { 
-      return { radius: Math.random() * 14 + 4 }
-    });
-    var nodesHead = d3.range(1000).map(function(i) {
-	  return { r: Math.random() * 14 + 4 };
-	});
-    var forceCollideHead = d3.forceCollide(function(d) { return d.radius; })
-    	.strength(0.8);
-    var sHead = 0.02;
-    var forceXHead = d3.forceX(widthHeadSv/2).strength(sHead);
-    var forceYHead = d3.forceY(heightHeadSv/2).strength(sHead);
-    
-    var forceHead = d3.forceSimulation(dataHead)
-    	.force('x', forceXHead)
-    	.force('y', forceYHead)
-    	.force('center', d3.forceCenter(widthHeadSv/2, heightHeadSv/2))
-    	.force('collide', forceCollideHead)
-    	.on('tick', function() {
-        svgHead.selectAll('.node')
-        	.attr('cx', function(d) { return d.x; })
-        	.attr('cy', function(d) { return d.y; })
-      });
-    
-    svgHead.selectAll('.node')
-    	.data(dataHead)
-      .enter()
-      .append('circle')
-    	.classed('node', true)
-    	.style('opacity', 0.5)
-      	.attr('r', function(d) { return d.radius; });
-    
-    forceHead.nodes(dataHead)
-    	.alpha(1)
-    	.restart();
-    
-    d3.select(svgHead.node().parentNode).append('button').text('grow').attr("class","btnHead")
-    	.on('click', switchRadius(100));
-    
-    d3.select(svgHead.node().parentNode).append('button').text('shrink').attr("class","btnHead")
-    	.on('click', switchRadius(10));
-    
-   function switchRadius(newRadius) {
-     return function() {
-       d3.selectAll('.node')
-          .filter(function(d,i) { return i === 5; })
-        	.transition().duration(1000)
-        	.tween('radius', function(d) {
-          	var that = d3.select(this);
-          	var i = d3.interpolate(d.radius, newRadius);
-          	return function(t) {
-              d.radius = i(t);
-              that.attr('r', function(d) { return d.radius; });
-              forceHead.nodes(dataHead)
-            }
-        	});
-       forceHead.alpha(1).restart();
-     }
-   };
-
-
-
-
-
-
-
-
-
-
-
-
 		var svgTrace = d3.select("#Capa_1");
 
 		var pathTrace = svgTrace.select("path#headPathOne"),
@@ -127,24 +47,32 @@
 	    var scale = pathLength/BBox.width;  // SIGUES IGUAL SIN ESTA LINEA
 	    var offsetLeft = document.getElementById("boxHeadGral").offsetLeft;
 
-/* CIRCLE MOVEMENT - MOUSE MOVE - FOLLOW THE CURSOR */
+	/* CIRCLE MOVEMENT - MOUSE MOVE - FOLLOW THE CURSOR */
 	    svgTrace.on("mousemove", function() {
-	      var x = d3.event.pageX - offsetLeft; 
-	      var beginning = x, end = pathLength, target;
-	      while (true) {
-	        target = Math.floor((beginning + end) / 2);
-	        pos = pathEl.getPointAtLength(target);
-	        if ((target === end || target === beginning) && pos.x !== x) {
-	            break;
-	        };
-	        if (pos.x > x)      end = target; // SIGUES IGUAL SIN ESTA LINEA
-	        else if (pos.x < x) beginning = target; // SIGUES IGUAL SIN ESTA LINEA
-	        else break; /* position found */
-	      }
-	      circleS
-	        .attr("opacity", 1)
-	        .attr("cx", x)
-	        .attr("cy", pos.y);
+	      	var x = d3.event.pageX - offsetLeft; 
+	      	var beginning = x, 
+	      	end = pathLength, 
+	      	target;
+
+	      	while (true) {
+		        target = Math.floor((beginning + end) / 2);
+		        pos = pathEl.getPointAtLength(target);
+		        if ((target === end || target === beginning) && pos.x !== x) {
+		            break;
+		        };
+		        if (pos.x > x){
+		        	end = target
+		        } // SIGUES IGUAL SIN ESTA LINEA
+		        else if (pos.x < x) {
+		        	beginning = target
+		        } // SIGUES IGUAL SIN ESTA LINEA
+		        else 
+		          break; /* position found */
+		    }
+	      	circleS
+		        .attr("opacity", 1)
+		        .attr("cx", x)
+		        .attr("cy", pos.y);
 	    });
 
 		/* Get path start point for placing marker */
@@ -153,8 +81,6 @@
 		    dsplitted = d.split(" ");
 		    return dsplitted[0].split(",");
 		};
-
-
 		function transition() {
 		    markerTrace.transition()
 		        .duration(17000)
@@ -177,32 +103,16 @@
 		        return "translate(" + centerX + "," + centerY + ")rotate(" + angle + " 24" + " 12" +")";
 		      }
 		    }
-		}
-
-
-
-
-$( "#anima" ).click(function() {
-					/* Adding our svg file to HTML document 
-		var importedNode = document.importNode(xml.documentElement, true);
-		d3.select(".boxHeadGral").node().appendChild(importedNode); */
-
-	   
-
+		};
+		$( "#anima" ).click(function() {
+			/* Adding our svg file to HTML document 
+			var importedNode = document.importNode(xml.documentElement, true);
+			d3.select(".boxHeadGral").node().appendChild(importedNode); */
+			//transition();
+		});
 		transition();
-
-
-
-  
-});
-
-
 					
 	} /*  END ready(error, xml) */
-
-
-
-
 
 
 /*

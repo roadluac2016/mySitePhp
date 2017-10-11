@@ -9,12 +9,8 @@
 	<path fill="none" stroke="#575A5A" stroke-width="3" stroke-miterlimit="10" d="M132.191,0c0,0,0,35.612,0,79.138
 		s45,79.138,100,79.138h668.83c55,0,100-35.612,100-79.138s0-79.138,0-79.138"/>
 </g>
-<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="176.4557" y1="39.319" x2="957.6689" y2="39.319">
-	<stop  offset="0" style="stop-color:#FFFFFF"/>
-	<stop  offset="1" style="stop-color:#5982BD;stop-opacity:0"/>
-</linearGradient>
-<polyline fill="url(#SVGID_1_)" stroke="#565353" stroke-width="3" stroke-miterlimit="10" points="176.456,0 176.456,78.638 
-	957.669,78.638 957.669,0 "/>
+<polyline opacity="0.4" fill="#ACADAA" stroke="#395CA2" stroke-width="0.75" stroke-miterlimit="10" points="176.456,0 
+	176.456,78.638 957.669,78.638 957.669,0 "/>
 <g>
 </g>
 <g>
