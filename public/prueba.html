@@ -1,0 +1,279 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	    <title> Element along path</title>
+		<!-- D3 -->
+		<script src="https://rodrigo-4d752.firebaseapp.com/javascripts/d3/d3.v4.min.js"></script>
+		<script src="https://rodrigo-4d752.firebaseapp.com/javascripts/queue.v1.min.js"></script>
+		<script src="https://rodrigo-4d752.firebaseapp.com/javascripts/d3/d3-selection-multi.v0.4.min.js"></script>
+	</head>
+	<style type="text/css">
+	  #line{
+	    width: 100%;
+	    margin: 20px 0;
+	    height: 300px;
+	    background: #eee;
+	  }
+	  #lineHeadManual {
+	    stroke: steelblue;
+	    stroke-width: 1;
+	    fill: none;
+	  }
+	  button {
+	    margin: 20px 0 0 20px;
+	  }
+	</style>
+<body>
+
+  <button id="randomize">Create random line</button>
+  <div id="line"></div>​
+
+<script>
+
+var headSvg = d3.xml("svg/svgHead.svg").mimeType("image/svg+xml").get(function(error, xml) {
+  if (error) throw error;
+  document.body.appendChild(xml.documentElement);
+
+
+	var interpolateTypes = [d3.curveLinear,d3.curveStepBefore,d3.curveStepAfter,d3.curveBasis,d3.curveBasisOpen, d3.curveBasisClosed, d3.curveBundle,d3.curveCardinal,d3.curveCardinal,d3.curveCardinalOpen,d3.curveCardinalClosed,d3.curveNatural];
+	var interpolateNames = ['d3.curveLinear','d3.curveStepBefore','d3.curveStepAfter','d3.curveBasis','d3.curveBasisOpen', 'd3.curveBasisClosed', 'd3.curveBundle','d3.curveCardinal','d3.curveCardinal','d3.curveCardinalOpen','d3.curveCardinalClosed','d3.curveNatural'];
+
+    var svg = d3.select("#line").append("svg").attr("width", "100%").attr("height", "400px");
+    var data = d3.range(50).map(function(){return Math.random()*10})
+    var x = d3.scaleLinear().domain([0, 10]).range([0, 700]);
+    var y = d3.scaleLinear().domain([0, 10]).range([10, 290]);
+
+    var lineMia = d3.line()
+      .x(function(d,i) {return x(i);})
+      .y(function(d) {return y(d);})
+      .curve(d3.curveCardinal);
+
+    var path = svg.append("svg:path").attr("id", "lineHeadManual").attr("d", lineMia(data)),
+    	pathTrace = d3.select("#headPathOne").attr("fill", "orange"),
+    	svgTrace = d3.select("#Capa_1").style("background-color", "blue"),
+		startPoint = pathStartPoint(pathTrace); // JSON - Contiene los primeros 4 valores del PATH ["M248.114", "196.838c46.967-34.398", "103.599-46.447", "159.031-60.118"	
+
+	var markerTrace = svgTrace.append("image")
+	  .attr("xlink:href", "https://img00.deviantart.net/2d97/i/2010/266/4/1/planet_stock_png_by_ravenmaddartwork-d2zay40.png")
+	  .attr("width", 38)
+	  .attr("height", 33);
+
+
+    var circle = svg.append("circle")
+          .attr("cx", 100)
+          .attr("cy", 350)
+          .attr("r", 10)
+          .attr("fill", "red");
+    var circle2 = svgTrace.append("circle")
+          .attr("cx", 100)
+          .attr("cy", 350)
+          .attr("r", 15)
+          .attr("fill", "orange");
+
+
+
+
+    var pathLineManual = path.node();
+    var pathSvgExt = pathTrace.node();
+
+    var pathLength = pathLineManual.getTotalLength();
+    var pathSvgExtLength = pathSvgExt.getTotalLength();
+
+    var offsetLeftUno = document.getElementById("line").offsetLeft;
+    var randomizeButton = d3.select("button");
+
+
+
+
+    svg.on("mousemove", function() {
+      var x = d3.event.pageX - offsetLeftUno; 
+      var beginning = x, end = pathLength, target;
+      while (true) {
+        target = Math.floor((beginning + end) / 2);
+        pos = pathLineManual.getPointAtLength(target);
+        if ((target === end || target === beginning) && pos.x !== x) {
+            break;
+        }
+        if (pos.x > x)      end = target;
+        else if (pos.x < x) beginning = target;
+        else                break; //position found
+      }
+      circle
+        .attr("opacity", 1)
+        .attr("cx", x)
+        .attr("cy", pos.y); // Lo coloca sobre la LÍNEA Y EL CURSOR LO SIGUE
+		//.attr("cy", pathTrace.node()); //pos.y
+
+		console.log("Posición del circulo en svg x=  " + pos.x);
+		console.log("Posición del circulo en svg y=  " + pos.y);
+    });
+
+    svgTrace.on("mousemove", function() {
+      var x = d3.event.pageX - offsetLeftUno; // FALTA ESTE: LINE WITH D3 VS EXTERNAL PATH!!!!!
+      var beginning = x, end = pathSvgExtLength, target;
+      while (true) {
+        target = Math.floor((beginning + end) / 2);
+        pos = pathSvgExt.getPointAtLength(target);
+        if ((target === end || target === beginning) && pos.x !== x) {
+            break;
+        }
+        if (pos.x > x)      end = target;
+        else if (pos.x < x) beginning = target;
+        else break; //position found
+      }
+      circle2
+        .attr("opacity", 1)
+        .attr("cx", x)
+        .attr("cy", pos.y);
+        //.attr("transform", "translate(" + startPoint[0] + "," + startPoint[1] + ")");
+
+		console.log("Posición del circulo en svgEXT x=  " + pos.x);
+		console.log("Posición del circulo en svgEXT y=  " + pos.y);
+    });
+
+
+
+    randomizeButton.on("click", function(){
+	      data = d3.range(50).map(function(){return Math.random()*10});                                
+	      path
+	        .transition()
+	        .duration(300)
+	        .attr("d", lineMia(data));
+	      transition();
+	      console.log(pathLineManual);
+	      console.log(pathSvgExt);
+    });
+
+
+
+    /* Get path start point for placing marker */
+		function pathStartPoint(pathTrace) {
+		    var d = pathTrace.attr("d"),
+		    dsplitted = d.split(" ");
+		    return dsplitted[0].split(",");
+		};
+		function transition() {
+		    markerTrace.transition()
+		        .duration(17000)
+		        .attrTween("transform", translateAlong(pathTrace.node()))
+		        .each("end", transition); /* infinite loop */
+		};
+
+		function translateAlong(pathTrace) {
+		    var l = pathTrace.getTotalLength();
+		    var t0 = 0;
+		    return function(i) {
+		      return function(t) {
+		        var p0 = pathTrace.getPointAtLength(t0 * l); /* previous point */
+		        var p = pathTrace.getPointAtLength(t * l); /* current point */
+		        var angle = Math.atan2(p.y - p0.y, p.x - p0.x) * 180 / Math.PI; /* Angle to rotate image */
+		        t0 = t;
+		        /* Shifting center to center of rocket */
+		        var centerX = p.x - 24,
+		        centerY = p.y - 12;
+		        return "translate(" + centerX + "," + centerY + ")rotate(" + angle + " 24" + " 12" +")";
+		      }
+		    }
+		};
+});
+
+
+
+
+
+
+
+
+/* ROTATE Circles */
+	var width = 200;
+	var height = 200;
+	var body = d3.select("body");
+	var svg = body.append("svg")
+	        .attr("width", width)
+	        .attr("height", height)
+	        .attr("fill", "blue");
+
+	function addCircle(container, radius, x, y) {
+	    // Note the hardcoded rotation; it's just an example
+	    var group = container.append("g")
+	        .attr("class", "circle-container")
+	        .attr("transform", "translate(" + x + ", " + y + ")");
+
+	    function rotate() {
+	        group.transition()
+	        .duration(6950)
+	        .ease(d3.easeLinear)
+	        .attrTween("transform", function (d, i, a) {
+	            return function (t) {
+	                var rotation = t * 360;
+	                return "translate(" + x + ", " + y + ") rotate(" + String(rotation) + ")";
+	            };
+	        })
+	        .on("end", rotate); /* .each("end", rotate) - for D3-v3*/
+	    };
+	    rotate();
+	    
+	    group.append("circle")
+	        .attr("cx", 0)
+	        .attr("cy", 0)
+	        .attr("r", radius)
+	        .style("fill", "none")
+	        .style("stroke", "steelblue");
+	    
+	    group.append("line")
+	        .attr("x1", 0)
+	        .attr("y1", 0)
+	        .attr("x2", radius)
+	        .attr("y2", 0)
+	        .style("stroke", "steelblue");
+	    
+	    return group;
+	}
+
+	var c1 = addCircle(svg, 30, width/2, height/2); // centered
+	var c2 = addCircle(c1, 20, 30, 0); // offset by 1st circle's radius
+	var c3 = addCircle(c2, 15, 20, 0); // offset by 2nd circle's radius
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	</body>
+	</html>

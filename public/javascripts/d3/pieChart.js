@@ -111,7 +111,7 @@ var arclabels = d3.arc()
 
 var arcOver = d3.arc()
     .innerRadius(60)
-                .outerRadius(200 + 10);
+    .outerRadius(200 + 10);
   
 var labelArclabels = d3.arc()
   .outerRadius(radius - 40)
@@ -136,11 +136,9 @@ g.append("path")
           //return OrdinalColorScale (i);
         })
   .on("mouseover", function(d,i){
-
       d3.select(this).transition()
                      .duration(1000)
                      .attr("d", arcOver);
-
       //d3.select(this).style("fill","white");
   })
   .on("mouseout", function(d,i){
@@ -153,22 +151,7 @@ g.append("path")
 g.append("text")
   .attr("transform", function(d) { return "translate(" + labelArclabels.centroid(d) + ")"; })
   .text(function(d) { return d.data.letter + ":" + "  " + d.data.presses  + '%';}) 
-    .style("fill", "#222222")
-    .style("color", "#222222")
-    .on("mouseover", function(d,i){
-
-      d3.select(this).transition()
-                     .duration(1000)
-                     .attr("d", arcOver);
-
-      //d3.select(this).style("fill","white");
-  })
-  .on("mouseout", function(d,i){
-          d3.select(this).style("fill", linearColorScalebcPie (i)); // color(d.data.letter)
-          d3.select(this).transition()
-                     .duration(1000)
-                     .attr("d", arclabels);
-  });
+  .style("fill", "#222222");
 
 
 
